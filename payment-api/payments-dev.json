@@ -1,0 +1,2887 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Payment API V1",
+    "description": "Version 1 of Payment API v1",
+    "version": "v1-oas3"
+  },
+  "servers": [
+    {
+      "url": "https://payment-api-dev-live.easy.paas-ext-test.bbsas.no:61000/"
+    }
+  ],
+  "paths": {
+    "/v1/subscriptions/charges": {
+      "post": {
+        "tags": [
+          "BulkChargeSubscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/charges/{bulkId}": {
+      "get": {
+        "tags": [
+          "BulkChargeSubscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "bulkId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PagedResultViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PagedResultViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PagedResultViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/verifications/{bulkId}": {
+      "get": {
+        "tags": [
+          "BulkSubscriptionVerification"
+        ],
+        "parameters": [
+          {
+            "name": "bulkId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/verifications": {
+      "post": {
+        "tags": [
+          "BulkSubscriptionVerification"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/charges/{chargeId}/refunds": {
+      "post": {
+        "tags": [
+          "Charges"
+        ],
+        "description": "Initialize refund",
+        "operationId": "Refund",
+        "parameters": [
+          {
+            "name": "chargeId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.RefundPaymentBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.RefundPaymentBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.RefundPaymentBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.RefundPaymentBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.RefundPaymentBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentRefundResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentRefundResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentRefundResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health-check": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ContentResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ContentResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ContentResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/payments/{paymentId}/orderitems": {
+      "put": {
+        "tags": [
+          "OrderItems"
+        ],
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payments": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payments/{paymentId}/referenceinformation": {
+      "put": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payments/{paymentId}": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payments/{paymentId}/charges": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "description": "Charge payment",
+        "operationId": "Charge",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "402": {
+            "description": "Client Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payments/{paymentId}/cancels": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "description": "Cancel authorization",
+        "operationId": "Cancel",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/pending-refunds/{refundId}/cancel": {
+      "post": {
+        "tags": [
+          "Refund"
+        ],
+        "operationId": "InitCancelRefund",
+        "parameters": [
+          {
+            "name": "refundId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "parameters": [
+          {
+            "name": "externalReference",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/charges": {
+      "post": {
+        "tags": [
+          "Subscription"
+        ],
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody"
+              }
+            },
+            "text/html": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Dibs.PaymentApi.Contracts.V1.WebHook": {
+        "type": "object",
+        "properties": {
+          "eventName": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "authorization": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Notification": {
+        "type": "object",
+        "properties": {
+          "webHooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.WebHook"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.OrderItem": {
+        "required": [
+          "grossTotalAmount",
+          "name",
+          "netTotalAmount",
+          "quantity",
+          "reference",
+          "unit",
+          "unitPrice"
+        ],
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taxRate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taxAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "grossTotalAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "netTotalAmount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Order": {
+        "required": [
+          "amount",
+          "currency",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody_BulkEntry": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalReference": {
+            "type": "string"
+          },
+          "order": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Order"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody": {
+        "type": "object",
+        "properties": {
+          "externalBulkChargeId": {
+            "type": "string"
+          },
+          "notifications": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Notification"
+          },
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsBody_BulkEntry"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargeSubscription.BulkChargeSubscriptionsResponse": {
+        "type": "object",
+        "properties": {
+          "bulkId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Infrastructure.Common.WebApi.BadRequestViewModel": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.BulkChargeViewModel": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "chargeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "externalReference": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PagedResultViewModel": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.BulkChargeViewModel"
+            }
+          },
+          "more": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody_BulkEntry": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalReference": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody": {
+        "type": "object",
+        "properties": {
+          "externalBulkVerificationId": {
+            "type": "string"
+          },
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody_BulkEntry"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.RefundPaymentBody": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentRefundResponse": {
+        "type": "object",
+        "properties": {
+          "refundId": {
+            "type": "string"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Mvc.ContentResult": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.UpdateCartBody_ShippingUpdates": {
+        "type": "object",
+        "properties": {
+          "costSpecified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.UpdateCartBody_PaymentMethodDetails": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "fee": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.UpdateCartBody": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          },
+          "shipping": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody_ShippingUpdates"
+          },
+          "paymentMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.UpdateCartBody_PaymentMethodDetails"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Address": {
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.PhoneNumber": {
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer_Person": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer_CompanyConsumer": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer_Person"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Address"
+          },
+          "phoneNumber": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.PhoneNumber"
+          },
+          "privatePerson": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer_Person"
+          },
+          "company": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer_CompanyConsumer"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ShippingCountry": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Shipping": {
+        "type": "object",
+        "properties": {
+          "countries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ShippingCountry"
+            }
+          },
+          "merchantHandlesShippingCost": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_ConsumerTypeOptions": {
+        "type": "object",
+        "properties": {
+          "default": {
+            "type": "string"
+          },
+          "supportedTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_DisplayOptions": {
+        "type": "object",
+        "properties": {
+          "showMerchantName": {
+            "type": "boolean"
+          },
+          "showOrderSummary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_TextOptions": {
+        "type": "object",
+        "properties": {
+          "completePaymentButtonText": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_CheckoutAppearance": {
+        "type": "object",
+        "properties": {
+          "displayOptions": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_DisplayOptions"
+          },
+          "textOptions": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_TextOptions"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_CheckoutDetails": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "integrationType": {
+            "type": "string"
+          },
+          "returnUrl": {
+            "type": "string"
+          },
+          "consumer": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_Consumer"
+          },
+          "termsUrl": {
+            "type": "string"
+          },
+          "shippingCountries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ShippingCountry"
+            }
+          },
+          "shipping": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Shipping"
+          },
+          "consumerType": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_ConsumerTypeOptions"
+          },
+          "charge": {
+            "type": "boolean"
+          },
+          "publicDevice": {
+            "type": "boolean"
+          },
+          "merchantHandlesConsumerData": {
+            "type": "boolean"
+          },
+          "appearance": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_CheckoutAppearance"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_SubscriptionDetails": {
+        "type": "object",
+        "properties": {
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "frequency": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interval": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_PaymentMethodDetails": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "fee": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody": {
+        "required": [
+          "checkout",
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Order"
+          },
+          "checkout": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_CheckoutDetails"
+          },
+          "merchantNumber": {
+            "type": "string"
+          },
+          "notifications": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Notification"
+          },
+          "subscription": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_SubscriptionDetails"
+          },
+          "paymentMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody_PaymentMethodDetails"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string"
+          },
+          "hostedPaymentPageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody": {
+        "type": "object",
+        "properties": {
+          "checkoutUrl": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PaymentSummary": {
+        "type": "object",
+        "properties": {
+          "reservedAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "chargedAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "refundedAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cancelledAmount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Address": {
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "receiverLine": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CompanyContactDetails": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.PhoneNumber"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Company": {
+        "type": "object",
+        "properties": {
+          "merchantReference": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "registrationNumber": {
+            "type": "string"
+          },
+          "contactDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CompanyContactDetails"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PrivatePerson": {
+        "type": "object",
+        "properties": {
+          "merchantReference": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.PhoneNumber"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ConsumerDetails": {
+        "type": "object",
+        "properties": {
+          "shippingAddress": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Address"
+          },
+          "company": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Company"
+          },
+          "privatePerson": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PrivatePerson"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Invoice": {
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string"
+          },
+          "ocr": {
+            "type": "string"
+          },
+          "pdfLink": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_CardDetails": {
+        "type": "object",
+        "properties": {
+          "maskedPan": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PaymentDetails": {
+        "type": "object",
+        "properties": {
+          "paymentType": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "invoiceDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Invoice"
+          },
+          "cardDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_CardDetails"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.OrderDetails": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.CheckoutParameters": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Refund": {
+        "type": "object",
+        "properties": {
+          "refundId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "orderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Charge": {
+        "type": "object",
+        "properties": {
+          "chargeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "orderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Subscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ThePayment": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PaymentSummary"
+          },
+          "consumer": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ConsumerDetails"
+          },
+          "paymentDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_PaymentDetails"
+          },
+          "orderDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderDetails"
+          },
+          "checkout": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CheckoutParameters"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refunds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Refund"
+            }
+          },
+          "charges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Charge"
+            }
+          },
+          "subscription": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_Subscription"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ThePayment"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargePayment.ChargePaymentBody": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel_PaymentChargeInvoice": {
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel": {
+        "type": "object",
+        "properties": {
+          "chargeId": {
+            "type": "string"
+          },
+          "invoice": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.ChargePayment.PaymentChargedViewModel_PaymentChargeInvoice"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Requests.CancelPaymentBody": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            }
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_CardDetails": {
+        "type": "object",
+        "properties": {
+          "expiryDate": {
+            "type": "string"
+          },
+          "maskedPan": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_Payment": {
+        "type": "object",
+        "properties": {
+          "paymentType": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "cardDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_CardDetails"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_SubscriptionImportError": {
+        "type": "object",
+        "properties": {
+          "importStepsResponseCode": {
+            "type": "string"
+          },
+          "importStepsResponseSource": {
+            "type": "string"
+          },
+          "importStepsResponseText": {
+            "type": "string"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "frequency": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interval": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_Payment"
+          },
+          "importError": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel_SubscriptionImportError"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionBody": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Order"
+          },
+          "notifications": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Notification"
+          }
+        }
+      },
+      "Dibs.PaymentApi.Contracts.V1.ChargeSubscription.ChargeSubscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "chargeId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  }
+}
