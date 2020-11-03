@@ -16,3 +16,43 @@ Optionally, you can also provide information regarding:
       
       
 On success, this method returns a <code>paymentId</code> which can be used in subsequent request to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to when using a hosted pre-built checkout page. 
+
+
+## Parameters
+
+<code>Authorization</code> **required** string
+
+Private API key.
+
+
+<code>CommercePlatformTag</code> optional string
+
+A tag that identifies the e-commerce platform, if any. 
+
+
+## Request body
+
+L1: <code>order<code> **required** object
+
+A customer order.
+
+L2: amount required integer
+
+Total amount of the order including VAT.
+
+L2: currency required string
+
+Possible values are <code>SEK</code>, <code>NOK</code>
+
+L2: <code>items<code> required array
+
+L2: <code>reference</code> required string
+
+Payment referene.
+
+
+L1: 
+      
+      
+      
+      
