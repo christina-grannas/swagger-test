@@ -75,9 +75,9 @@ x checkout required object
 xx integrationType optional string
    Any of HostedPaymentPage or EmbeddedCheckout. Default is EmbeddedCheckout.
 xx url optional string
-   URL to your site. Only relevant if using EmbeddedCheckout.
+   Required if using EmbeddedCheckout. The URL to your checkout page which will embed the checkout view. Required so that load Checkout.js loads correctly. 
 xx returnUrl optional string
-   URL point at the page on your site that the customer should return to after a hosted payment. Only relevant if using HostedPaymentPage.
+   Required if using HostedPaymentPage. A URL pointing at the page on your site that the customer should return to when the customer has completed the payment. Only relevant if using HostedPaymentPage.
 xx termsUrl required string
    URL to your terms and conditions
 
