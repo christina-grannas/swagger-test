@@ -33,19 +33,19 @@ A tag that identifies the e-commerce platform, if any.
 ## Request body
 
 L1 <code>order</code> **required** object  
-   A customer order.
-  L2 <code>amount</code> required integer  
-     Total amount of the order including VAT.
-  L2 <code>currency</code> required string  
-     Possible values are <code>SEK</code>, <code>NOK</code>
-  L2 <code>reference</code> required string
-     Payment referene.
-  L2 <code>items</code> required array
-    Array of order items.
-    L3 <code>reference</code> required string
-      Product reference.
-    L3 <code>name</code> 
-       Product name
+   A customer order.  
+  L2 <code>amount</code> required integer   
+     Total amount of the order including VAT.  
+  L2 <code>currency</code> required string   
+     Possible values are <code>SEK</code>, <code>NOK</code>   
+  L2 <code>reference</code> required string  
+     Payment referene.  
+  L2 <code>items</code> required array  
+    Array of order items.  
+    L3 <code>reference</code> required string  
+      Product reference.  
+    L3 <code>name</code>   
+       Product name   
        
        
        
