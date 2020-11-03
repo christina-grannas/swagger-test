@@ -34,66 +34,74 @@ A tag that identifies the e-commerce platform, if any.
 <pre>
       
 
-1 order required object  
-1 A customer order.  
+x order required object  
+  A customer order.  
 
- 2 amount required integer   
- 2 Total amount of the order including VAT.  
+xx amount required integer   
+   Total amount of the order including VAT.  
+xx currency required string   
+   Possible values are SEK, NOK
+xx reference required string  
+   Payment referene.  
+xx items required array  
+   Array of order items.  
 
- 2 currency required string   
- 2 Possible values are SEK, NOK
-  
- 2 reference required string  
- 2 Payment referene.  
-  
- 2 items required array  
- 2 Array of order items.  
- 
-  3 reference required string  
-  3 Product reference.  
-  
-  3 name required string
-  3 Product name.
+xxx reference required string  
+    Product reference.  
+xxx name required string
+    Product name.
+xxx quantity required string
+    Product quantity.
+xxx unit required string
+    Product unit, for instance pcs or Kg
+xxx unitPrice required string
+    Product price per unit without VAT.
+xxx grossTotalAmount required number
+    Product total amount including VAT
+xxx netTotalAmount required 
+    Product total amount excluding VAT
+xxx taxRate optional number
+    Product tax rate. Defaults to 0 if not provided.
+xxx taxAmount optional number
+    Product tax/VAT amount. Defaults to 0 if not provided. Should include the total tax amount for the entire order row.
+xxx grossTotalAmount required number
+    Product total amount including VAT
+xxx netTotalAmount required 
+    Product total amount excluding VAT
        
-  3 quantity required string
-  3 Product quantity.
+x checkout required object
+  Settings for the checkout page
 
-  3 unit required string
-  3 Product unit, for instance pcs or Kg
-  
-  3 unitPrice required string
-  3 Product price per unit without VAT.
-  
-  3 grossTotalAmount required number
-  3 Product total amount including VAT
+xx integrationType optional string
+   Any of HostedPaymentPage or EmbeddedCheckout. Default is EmbeddedCheckout.
+xx url optional string
+   URL to your site. Only relevant if using EmbeddedCheckout.
+xx returnUrl optional string
+   URL point at the page on your site that the customer should return to after a hosted payment. Only relevant if using HostedPaymentPage.
+xx termsUrl required string
+   URL to your terms and conditions
 
-  3 netTotalAmount required 
-  3 Product total amount excluding VAT
-
-  3 taxRate optional number
-  3 Product tax rate. Defaults to 0 if not provided.
-
-  3 taxAmount optional number
-  3 Product tax/VAT amount. Defaults to 0 if not provided. Should include the total tax amount for the entire order row.
-  
-  3 grossTotalAmount required number
-  3 Product total amount including VAT
-
-  3 netTotalAmount required 
-  3 Product total amount excluding VAT
-
+x notifications optional object
+  Receive status notifications of a ongoing payment.
+xx webhooks required array
+   The webhooks you want to register for the payment. Maximum number of webhooks is 32.
+xxx url required string
+    Your endpoint URL to be called when an event is triggered. The endpoint should support HTTPS. Maximum lenght is 256 characters.
+xxx authorization optional string
+    An authorization header value that will be added to the callback request from Nets to your webhook endpoint. Must be a alphanumeric string with a length between 8 to 32  characters.
+xxx eventName required string
+    The event you want to receive notifications about. Possible values are:
+    - payment.created - A payment was created.
+    - payment.reservation.created.v2- A customer has successfully created a reservation.
+    - payment.charge.created.v2 - A payment has been charged (partially or fully).
+    - payment.charge.failed - A charge did fail.
+    - payment.refund.initiated.v2 - A refund was initiated.
+    - payment.refund.failed - A refund did fail.
+    - payment.refund.completed - A refund has successfully been completed.
+    - payment.cancel.created - A reservation has been canceled.
+    - payment.cancel.failed - A cancellation did fail.
+       
        
 </pre>
        
-       
-       
-    - 
-
-
-
-
-L1: 
-      
-      
-      
-      
+     
