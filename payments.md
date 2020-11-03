@@ -105,3 +105,60 @@ xxx eventName required string
 </pre>
        
      
+
+
+
+
+
+<pre>
+
+{
+  "order": {
+    "items": [
+      {
+        "reference": "Sneaky",
+        "name": "Sneaky",
+        "quantity": 1,
+        "unit": "pcs",
+        "unitPrice": 2500,
+        "taxRate": 1000,
+        "taxAmount": 250,
+        "netTotalAmount": 2500,
+        "grossTotalAmount": 2750
+      }
+    ],
+    "amount": 2750,
+    "currency": "SEK",
+    "reference": "Nets Easyshop"
+  },
+  "checkout": {
+    "termsUrl": "https://example.com/terms",
+    "publicDevice": false,
+    "charge": false,
+    "integrationType": "HostedPaymentPage",
+    "merchantHandlesConsumerData": false,
+    "consumerType": {
+      "supportedTypes": [
+        "B2C",
+        "B2B"
+      ],
+      "default": "B2C"
+    },
+    "returnUrl": "https://example.com/confirmation"
+  },
+  "notifications": {
+    "webhooks": [
+      {
+        "eventName": "payment.created",
+        "url": "https://example.com/api/WebhookState",
+        "authorization": "myAuthorizationKey"
+      },
+      {
+        "eventName": "payment.checkout.completed",
+        "url": "https://example.com/api/WebhookState",
+        "authorization": "myAuthorizationKey"
+      }
+    ]
+  }
+}
+</pre>
