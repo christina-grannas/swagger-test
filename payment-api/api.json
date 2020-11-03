@@ -113,9 +113,6 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Server Error",
             "content": {
