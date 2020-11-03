@@ -31,35 +31,63 @@ A tag that identifies the e-commerce platform, if any.
 
 
 ## Request body
+<pre>
+      
 
-L1 <code>order</code> **required** object  
-   A customer order.  
-  L2 <code>amount</code> required integer   
-     Total amount of the order including VAT.  
-  L2 <code>currency</code> required string   
-     Possible values are <code>SEK</code>, <code>NOK</code>   
-  L2 <code>reference</code> required string  
-     Payment referene.  
-  L2 <code>items</code> required array  
-    Array of order items.  
-    L3 <code>reference</code> required string  
-      Product reference.  
-    L3 <code>name</code>   
-       Product name   
-       
-       
-       
-       
-       
-       
-    - quantity - Product quantity (mandatory)
-unit - Product unit, for instance pcs or Kg (mandatory)
-unitPrice - Product price per unit without VAT (mandatory)
-taxRate - Product tax rate - defaults to 0 if not provided.
-taxAmount - Product tax/VAT amount  - defaults to 0 if not provided. taxAmount should include the total tax amount for the entire order row.
-grossTotalAmount - Product total amount including VAT (mandatory)
-netTotalAmount - Product total amount excluding VAT (mandatory)
+1 order required object  
+1 A customer order.  
 
+ 2 amount required integer   
+ 2 Total amount of the order including VAT.  
+
+ 2 currency required string   
+ 2 Possible values are SEK, NOK
+  
+ 2 reference required string  
+ 2 Payment referene.  
+  
+ 2 items required array  
+ 2 Array of order items.  
+ 
+  3 reference required string  
+  3 Product reference.  
+  
+  3 name required string
+  3 Product name.
+       
+  3 quantity required string
+  3 Product quantity.
+
+  3 unit required string
+  3 Product unit, for instance pcs or Kg
+  
+  3 unitPrice required string
+  3 Product price per unit without VAT.
+  
+  3 grossTotalAmount required number
+  3 Product total amount including VAT
+
+  3 netTotalAmount required 
+  3 Product total amount excluding VAT
+
+  3 taxRate optional number
+  3 Product tax rate. Defaults to 0 if not provided.
+
+  3 taxAmount optional number
+  3 Product tax/VAT amount. Defaults to 0 if not provided. Should include the total tax amount for the entire order row.
+  
+  3 grossTotalAmount required number
+  3 Product total amount including VAT
+
+  3 netTotalAmount required 
+  3 Product total amount excluding VAT
+
+       
+</pre>
+       
+       
+       
+    - 
 
 
 
