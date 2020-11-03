@@ -32,7 +32,7 @@ A tag that identifies the e-commerce platform, if any.
 
 ## Request body
 
-L1: <code>order<code> **required** object
+L1: <code>order</code> **required** object
 
 A customer order.
 
@@ -44,7 +44,7 @@ L2: currency required string
 
 Possible values are <code>SEK</code>, <code>NOK</code>
 
-L2: <code>items<code> required array
+L2: <code>items</code> required array
 
 L2: <code>reference</code> required string
 
