@@ -1,5 +1,6 @@
 # Payments
 
+# Create Payment
 
 Initializes a new payment object which is the object used through out the checkout flow for a particular customer and order. Creating a payment object is the first step when you intent to accept a payment from you customer. Typically you provide the following information:
       
@@ -18,7 +19,7 @@ Optionally, you can also provide information regarding:
 On success, this method returns a <code>paymentId</code> which can be used in subsequent request to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to when using a hosted pre-built checkout page. 
 
 
-## Parameters
+### Parameters
 
 <code>Authorization</code> **required** string
 
@@ -30,7 +31,7 @@ Private API key.
 A tag that identifies the e-commerce platform, if any. 
 
 
-## Request body
+### Request body
 <pre>
       
 
