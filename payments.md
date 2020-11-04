@@ -1,6 +1,8 @@
 # Payments
 
-# Create Payment
+## Create Payment
+
+<code>POST /v1/payments</code>
 
 Initializes a new payment object which is the object used through out the checkout flow for a particular customer and order. Creating a payment object is the first step when you intent to accept a payment from you customer. Typically you provide the following information:
       
