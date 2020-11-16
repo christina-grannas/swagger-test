@@ -37,11 +37,12 @@ In this guide, you will embed a checkout page to your webshop in five steps:
 
 
 
-## 1. Initiate the checkout from your site (frontend)
+## Step 1: Initiate the checkout from your site (frontend)
 The checkout is initiated from the client. We will start implementing the checkout flow from the frontend by adding:
 * A `<button>` that will allow the customer to initiate the checkout
 * A `<div>` that will embedded the checkout page.
 * An JavaScript event handler attached to the button
+
 We'll begin with a minimal HTML page:
 
 ```html
@@ -88,7 +89,7 @@ var checkout_func = function (paymentId) {
 When the customer clicks the button, this event handler will send an HTTP request to the backend of your site, which in turn will create a new payment object. We will get back to the frontside JavaScript in a while. But first, let's implement the backend responsible for creating the payment object.
 
 
-## 2. Create a payment object (backend)
+## Step 2: Create a payment object (backend)
 
 
 Each payment session is represented by a payment object. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the paymentId for that object. Creating a payment object requires your Secret API key. Therefore, this request has to be initiated from the backend of your site: 
@@ -165,7 +166,7 @@ You should now be able to click the "Checkout!" button and thereafter see the pa
 Now when the backend part is implemented it's time to go back to the frontend code and use the paymentId to create the payment view.
 
 
-## 3. Use Checkout.js to build checkout iframe
+## Step 3: Use Checkout.js to build checkout iframe
 
 Once we have a paymentId, we can create the payment form using a JavaScript library provided by Nets, called Checkout.js which is fully documented in the  API reference. First you need to load it:
 
@@ -200,7 +201,7 @@ For the Checkout.js script to load correctly, it's important that you have speci
 The checkout object will fire the event 'payment-completed' once the payment has completed. The callback function we provide navigate to payment-completed.html which we will create in the next step. 
 
 
-## 4. Add a complete payment page
+## Step 4: Add a complete payment page
 
 
 Add the following page to your site and name it payment-completed.html:
@@ -219,7 +220,7 @@ Add the following page to your site and name it payment-completed.html:
 That's it! Now it's time test and verify that your new embedded checkout page is working.
 
 
-## 5. Test your checkout page
+## Step 5: Test your checkout page
 
 You should now have a rudimentary checkout page that can be tested using the test cards that can be found at the page Test environment.
 
@@ -239,12 +240,13 @@ Here is how you test your new checkout page:
 The simulated payment processing should now start and eventually get you back to the payment-completed.html page you created in the previous step.
 
 
-Troubleshooting
+## Troubleshooting
 
 
 
 
 
 
-Report a problem
+## Report a problem
+
 support@nets.se
