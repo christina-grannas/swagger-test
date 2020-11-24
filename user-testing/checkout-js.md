@@ -21,7 +21,7 @@ The Checkout() cons
 | `paymentId`	| Required | Reference to the `paymentId` token
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
-| `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [possible values](#supported-languages) below.
+| `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
 
 
 
@@ -75,7 +75,7 @@ Should be used after freezeCheckout(). This method will unfreeze the checkout, a
 
 
 
-Changes the display language on an active checkout session. See [supported language][#supported-languages] section below.
+Changes the display language on an active checkout session. See [supported language](#supported-languages) section below.
 
 ## The cleanup() method
 
@@ -108,7 +108,7 @@ The following languages can be specified on the checkout page:
 
 ## UI theme
 
-You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using a `theme` object. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#set-theme-method) method. A `theme` object contains the following properties:
+You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using a `theme` object. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#the-settheme-method) method. A `theme` object contains the following properties:
 
 
 | Property              | Description
