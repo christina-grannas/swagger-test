@@ -63,7 +63,8 @@ The `Checkout` object contains the following methods.
 Changes the UI theme on an active checkout session. See [UI theme](#ui-theme) section below.
 
 #### Syntax
-```
+
+```javascript
 checkout.setTheme(theme);
 ```
 
@@ -79,7 +80,8 @@ A [theme](#ui-theme) dictionary specifying the style settings to be used.
 Changes the display language on an active checkout session.
 
 #### Syntax
-```
+
+```javascript
 checkout.setLanguage(language);
 ```
 
@@ -94,7 +96,8 @@ checkout.setLanguage(language);
  Send an event with a name that will be triggered within the checkout.
 
 #### Syntax
-```
+
+```javascript
 checkout.send(eventName, value)
 ```
 
@@ -135,7 +138,8 @@ When this code snippet is run, the `Checkout` object will continue the pay flow.
 Temporarily freezes (pauses) the checkout by disabling the payment button. Call this method before updating the order items of an active checkout session. Once the order items have been updated, you should resume the checkout session by calling `thawCheckout()`.
 
 #### Syntax
-```
+
+```javascript
 checkout.freezeCheckout();
 ```
 
@@ -146,7 +150,8 @@ Resumes a frozen checkout and triggers a reloading of the payment information.
 If this method is invoked after the order items has been updated, the amount will also be updated to the correct amount.
 
 #### Syntax
-```
+
+```javascript
 checkout.thawCheckout();
 ```
 
@@ -156,7 +161,8 @@ checkout.thawCheckout();
 Removes all event listeners. 
 
 #### Syntax
-```
+
+```javascript
 cleanup()
 ```
 
