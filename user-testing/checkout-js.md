@@ -26,11 +26,11 @@ var checkout = Checkout(checkoutOptions);
 
 You are required to pass parameters for identifying **your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
 
-The `checkoutOptions` dictionary holds the following properties:
+The `checkoutOptions` object contains the following properties:
 
 | Property   | Required/Optional | Description
 | :-----------| :-----------------: |:-----------
-| `checkoutKey`  | Required | Identifies your web site, see [Integration keys](access-your-integation-keys.md)
+| `checkoutKey`  | Required | Identifies your site (webshop), see [Integration keys](access-your-integation-keys.md)
 | `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
@@ -43,7 +43,7 @@ The `Checkout` object contains the following methods.
 
 ### setTheme()
 
-Changes the UI theme on an active checkout session. See [UI theme][#ui-theme] section below.
+Changes the UI theme on an active checkout session. See [UI theme](#ui-theme) section below.
 
 #### Syntax
 ```
@@ -54,7 +54,6 @@ checkout.setTheme(theme);
 `theme` - *required*
 
 A [theme](#ui-theme) dictionary specifying the style settings to be used.
-
 
 
 
@@ -85,9 +84,11 @@ checkout.send(eventName, value)
 #### Parameters
 
 `eventName` - *required*
+
 A string identifying the event to be sent. 
 
 `value` - *optional*
+
 An optional value for the specified event.
 
 
