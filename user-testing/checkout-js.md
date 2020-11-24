@@ -1,6 +1,8 @@
 # Checkout JavaScript API (frontend)
 
-The `Checkout` object is the main object that dynamically builds the checkout form when embedding a checkout form on your site. The Checkout object is also the controller object that you use for communicating with Nets on the frontend of your site.
+The `Checkout` object is the main object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object is also act as the controller object between your frontend and Nets.
+
+<!-- that you use for communicating with Nets on the frontend of your site. -->
 
 ## Constructor
 
