@@ -24,7 +24,7 @@ var checkout = new Dibs.Checkout(checkoutOptions);
 #### Parameters
 `checkoutOptions` - *required*
 
-You are required to pass parameters for identifying **your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
+You are required to pass parameters for identifying **your site** and the **ongoing payment session**. Optionally, you can provide parameters that affect the **UI** of the checkout page.
 
 The `checkoutOptions` object contains the following properties:
 
@@ -34,7 +34,8 @@ The `checkoutOptions` object contains the following properties:
 | `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM element on your site where the `iframe` will be loaded
-| `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
+| `language` | Optional | Language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
+| `theme` | Optional | A dictionary. See [UI theme](#ui-theme) below.
 
 #### Example
 
@@ -163,7 +164,7 @@ Removes all event listeners.
 #### Syntax
 
 ```javascript
-cleanup()
+checkout.cleanup()
 ```
 
 
@@ -176,7 +177,7 @@ The following languages can be specified on the checkout page:
 |:-------:|:------- 
 | `en-GB` | English (default)
 | `da-DK` | Danish 
-| `sv-SE` | Swedish |
+| `sv-SE` | Swedish 
 | `nb-NO` | Norwegian 
 | `de-DE` | German    
 | `pl-PL` | Polish    
