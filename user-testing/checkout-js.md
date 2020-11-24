@@ -1,7 +1,17 @@
 # Checkout.js
 
+The `Checkout` object is the main object that dynamically builds the checkout form when embedding a checkout form on your site. The Checkout object is also the controller object that you use for communicating with Nets on the frontend of your site.
 
 ## Constructor
+
+The Checkout() constructor allows you to specify a large amount of setting to control:
+
+- The UI style (theme)
+- Language
+
+```javascript
+The Checkout() cons
+```
 
 ### Constructor parameters
 
@@ -11,13 +21,74 @@
 | `paymentId`	| Required | Reference to the `paymentId` token
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
-| `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [possible values](#checkout-languages) below.
-| `` | Optional |
-| `` | Optional |
-| `` | Optional |
+| `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [possible values](#supported-languages) below.
 
 
-#### Checkout languages
+
+
+## The setTheme() method
+
+```javascript
+public setTheme(theme: any)
+```
+
+Changes the UI theme on an active checkout session. See [UI theme][#ui-theme] section below.
+
+## The setLanguage() method
+
+```javascript
+public setLanguage(language: string)
+```
+
+## The send() method
+
+```javascript
+public send(eventName: string, value?: any)
+```
+
+
+Can be used to send an eventName that will be triggered within the checkout.
+For now the only eventName supported is 'payment-order-finalized', where the value should be a boolean set to true.
+
+An example of usage for this is when you listen to the event 'pay-initialized'.
+
+By listening to this event, the checkout flow will not proceed the payment when clicking pay unless you send this event.
+It can be sent with the follow js code: this.send('payment-order-finalized', true);
+When this code snippet is run the checkout will continue the pay flow.
+
+## The freezeCheckout() method
+
+```javascript
+public freezeCheckout()
+```
+
+Temporarily freezes (pauses) the checkout by disabling the payment button. Call this method before updating the order items of an active checkout session. Once the order items have been updated, you should resume the checkout session by calling `thawCheckout()`.
+
+## The thawCheckout() method
+
+```javascript
+public thawCheckout()
+```
+
+Should be used after freezeCheckout(). This method will unfreeze the checkout, and it will also trigger to get the latest data on the payment. Normally used to update the order items, so if this is run after order items is updated, the pay amount will also be updated to the correct amount.
+
+
+
+
+Changes the display language on an active checkout session. See [supported language][#supported-languages] section below.
+
+## The cleanup() method
+
+```javascript
+public cleanup()
+```
+
+Removes all event listeners. 
+
+
+
+
+## Supported languages
 
 The following languages can be specified on the checkout page:
 
@@ -35,7 +106,7 @@ The following languages can be specified on the checkout page:
 | `fi-FI` | Finnish   
 	
 
-#### **UI theme settings**
+## UI theme
 
 You can change the style of the checkout UI by specifying, fonts, colors, button styles etc by setting properties on the `theme` parameter object passed to the Checkout constructor.
 
@@ -67,37 +138,3 @@ The following properties can be specified:
 | `footerTextColor`       | Text color for footer
 | `useLightIcons`         | Use light icons. Boolean, default `false`.
 | `useLightFooterIcons`   | Use light icons in footer. Boolean, default `false`
-
-
-
-## The `send()` method
-
-
-    public send(eventName: string, value?: any)
-Can be used to send an eventName that will be triggered within the checkout.
-For now the only eventName supported is 'payment-order-finalized', where the value should be a boolean set to true.
-An example of usage for this is when you listen to the event 'pay-initialized'.
-By listening to this event, the checkout flow will not proceed the payment when clicking pay unless you send this event.
-It can be sent with the follow js code: this.send('payment-order-finalized', true);
-When this code snippet is run the checkout will continue the pay flow.
-
-public freezeCheckout()
-Should be used when you want to update the order items of an active checkout. Activating this will freeze the checkout, and you will not be able to click "Pay". After this is trigged you do the API call to update order items. Should be followed by also running thawCheckout().
-
-public thawCheckout()
-Should be used after freezeCheckout(). This method will unfreeze the checkout, and it will also trigger to get the latest data on the payment. Normally used to update the order items, so if this is run after order items is updated, the pay amount will also be updated to the correct amount.
-
-public setTheme(theme: any)
-Can be used to change the theme while having the checkout running.
-Allowed theme should be the same as defined for theme sent in with the CheckoutOptions.
-
-public setLanguage(language: string)
-Can be used to change the display language while having the checkout running.
-Allowed languages should be the same as the language sent in with the CheckoutOptions.
-
-public cleanup()
-Can be used to help clean up all eventlisteners. It will remove all eventlisteners.
-1:06
-
-public send metoden er litt tåpelig.. burde kanskje bare laget en ny metode som heter continuePayFlow() eller noe sånt :stuck_out_tongue: haha.. støtter jo bare et eventName
-Men men.. vi kan ikke fjerne den siden folk har tatt den i bruk
