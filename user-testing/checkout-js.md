@@ -17,8 +17,8 @@ When constructing a `Checkout` object, you are required to pass a `checkoutOptio
 -->
 
 #### Syntax
-```
-var checkout = Checkout(checkoutOptions);
+```javascript
+var checkout = new Dibs.Checkout(checkoutOptions);
 ```
 
 #### Parameters
@@ -35,6 +35,23 @@ The `checkoutOptions` object contains the following properties:
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
 | `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
+
+#### Example
+
+The following example creates a checkout page using English and buttons with rounded corners in the `<div>` with `id='checkout-container-div'`:
+
+```javascript
+var checkoutOptions = {
+    checkoutKey: “test-checkout-key-00000000000000000000000009000000”,
+    paymentId : "8b464458f2524bc39fe5d31deb8bedc1",
+    containerId : "checkout-container-div",
+    language: "en-GB",
+    theme: {
+        buttonRadius: "5px"
+    }
+};
+var checkout = new Dibs.Checkout(checkoutOptions);
+```
 
 
 ## Methods
