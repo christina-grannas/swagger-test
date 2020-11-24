@@ -8,5 +8,5 @@ Creating an account comes at no cost and new accounts are placed in test mode by
 
 ## See also
 
-- [Access your integration keys](access-your-integration-keys.md)
-- [Why does Nets need my email and phone number?](https://www.example.com/faq/)
+- [Access your integration keys](access-your-integration-keys.md) (Article)
+- [Why does Nets need my email and phone number?](https://www.example.com/faq/) (FAQ)
