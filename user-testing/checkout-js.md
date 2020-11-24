@@ -108,17 +108,13 @@ The following languages can be specified on the checkout page:
 
 ## UI theme
 
-You can change the style of the checkout UI by specifying, fonts, colors, button styles etc by setting properties on the `theme` parameter object passed to the Checkout constructor.
-
- 
-All property values are strings, and must be valid css.
-The following properties can be specified:
+You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using a `theme` object. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#set-theme-method) method. A `theme` object contains the following properties:
 
 
 | Property              | Description
 |-----------------------|-----------
-| `textColor`           | Affects all text except links. <br>Panel text can be overridden separately.
-| `linkColor`           | Color to be used for links. <br>Links with text can be overridden separately.
+| `textColor`           | Affects all text except links. Panel text can be overridden separately.
+| `linkColor`           | Color to be used for links. Links with text can be overridden separately.
 | `fontFamily`          | Any [Google font](https://fonts.google.com). String, default `"Roboto"`
 | `backgroundColor`     | Background color. Any CSS color.
 | `placeholderColor`    | Placeholder color. Any CSS color.
@@ -127,7 +123,7 @@ The following properties can be specified:
 | `panelColor`          | Panel color. Any CSS color
 | `panelTextColor`      | Text color within the panel
 | `panelLinkColor`      | Link color within the panel
-| `primaryColor`        | Affects the pay button, <br> default button outlines, <br> and radio buttons
+| `primaryColor`        | Affects the pay button, default button outlines, and radio buttons
 | `buttonRadius`        | Radius of the buttons. Number, default 0.
 | `buttonTextColor`     | Text color for all buttons. Any CSS color.
 | `buttonFontWeight`    | [Font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) Number (for example `500`) or <brr> string (for example `"bold"`)
@@ -136,5 +132,5 @@ The following properties can be specified:
 | `footerBackgroundColor` | Footer background color
 | `footerOutlineColor`    | Footer outline color
 | `footerTextColor`       | Text color for footer
-| `useLightIcons`         | Use light icons. Boolean, default `false`.
-| `useLightFooterIcons`   | Use light icons in footer. Boolean, default `false`
+| `useLightIcons`         | Use light icons for dark background. Boolean, default `false`.
+| `useLightFooterIcons`   | Use light icons in footer for dark background. Boolean, default `false`
