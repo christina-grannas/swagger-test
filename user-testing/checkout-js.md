@@ -33,16 +33,16 @@ The `checkoutOptions` object contains the following properties:
 | `checkoutKey`  | Required | Identifies your site (webshop), see [Integration keys](access-your-integation-keys.md)
 | `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
 | `partnerMerchantNumber` | Optional  | Partner identifer
-|  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
+|  `containerId` |  Optional | ID of the DOM element on your site where the `iframe` will be loaded
 | `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
 
 #### Example
 
-The following example creates a checkout page using English and buttons with rounded corners in the `<div>` with id `checkout-container-div`:
+The following example embeds a checkout `iframe` in the DOM element on your site with id `'checkout-container-div'`. The display language is set to English and buttons will have slightly rounded corners:
 
 ```javascript
 var checkoutOptions = {
-    checkoutKey: “test-checkout-key-00000000000000000000000009000000”,
+    checkoutKey: "test-checkout-key-003345054979023400345",
     paymentId : "8b464458f2524bc39fe5d31deb8bedc1",
     containerId : "checkout-container-div",
     language: "en-GB",
@@ -71,7 +71,7 @@ checkout.setTheme(theme);
 #### Parameters
 `theme` - *required*
 
-A [theme](#ui-theme) dictionary specifying the style settings to be used.
+A UI [theme](#ui-theme) dictionary specifying the style settings to be used.
 
 
 
@@ -209,7 +209,7 @@ You can change the style of the checkout UI by specifying, fonts, colors, button
 | `buttonFontWeight`    | [Font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) Number (for example `500`) or <brr> string (for example `"bold"`)
 | `buttonFontStyle`     | [Font style](https://developer.mozilla.org/en-US/docs/Web/CSS/font-style) such as `"italic"` and `"oblique"`. <br>String, default `"normal"`
 | `buttonTextTransform` | [Text transform](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform). String, default `"none"`.
-| `footerBackgroundColor` | Footer background color
+| `footerBackgroundColor` | Background color of the footer
 | `footerOutlineColor`    | Footer outline color
 | `footerTextColor`       | Text color for footer
 | `useLightIcons`         | Use light icons for dark background. Boolean, default `false`.
