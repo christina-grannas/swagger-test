@@ -1,23 +1,32 @@
 # Checkout JavaScript API (frontend)
 
-The `Checkout` object is the main object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object is also act as the controller object between your frontend and Nets.
+The `Checkout` object is the main object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object also handles the communication between the frontend of your site and Nets.
 
 <!-- that you use for communicating with Nets on the frontend of your site. -->
 
 ## Constructor
+Constructs a new `Checkout` object. 
 
-**Syntax**
+During construction, the Checkout object communicates with the Nets Easy Checkout servers and immediately starts generating your embedded checkout page.
 
+<!--
+The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
+is described in the following section.
+
+When constructing a `Checkout` object, you are required to pass a `checkoutOptions` object with the following properties: 
+-->
+
+#### Syntax
 ```
 var checkout = Checkout(checkoutOptions);
 ```
-The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
 
-The `checkoutOptions` is described in the following section.
+#### Parameters
+`checkoutOptions` - *required*
 
-### Constructor parameters
+You are required to pass parameters for identifying **your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
 
-When constructing a `Checkout` object, you are required to pass a `checkoutOptions` object with the following properties: 
+The `checkoutOptions` dictionary holds the following properties:
 
 | Property   | Required/Optional | Description
 | :-----------| :-----------------: |:-----------
@@ -32,7 +41,6 @@ When constructing a `Checkout` object, you are required to pass a `checkoutOptio
 
 The `Checkout` object contains the following methods.
 
-
 ### setTheme()
 
 Changes the UI theme on an active checkout session. See [UI theme][#ui-theme] section below.
@@ -43,23 +51,27 @@ checkout.setTheme(theme);
 ```
 
 #### Parameters
-```theme``` - *required*
+`theme` - *required*
 
 A [theme](#ui-theme) dictionary specifying the style settings to be used.
 
+
+
+
 ### setLanguage()
 
-Set the display language used on the checkout page for an ongoing payment session.
+Changes the display language on an active checkout session.
 
 #### Syntax
 ```
-checkoutt.setLanguage(language);
+checkout.setLanguage(language);
 ```
 
 #### Parameters
 
 `language` - *required*
-An string 
+ A string specifying the language.  See [supported language](#supported-languages).
+
 
 ### send()
 
@@ -88,11 +100,17 @@ For now the only eventName supported is 'payment-order-finalized', where the val
 
 #### Example
 
-An example of usage for the event `'payment-order-finalized'`  is when you listen to the event `'pay-initialized'`.
+An example of usage for the event `'payment-order-finalized'` is when you listen to the event `'pay-initialized'`. By listening to this event, the checkout flow will not proceed the payment when your customer clicks *pay* unless you send the event `'payment-order-finalized'`.
 
-By listening to this event, the checkout flow will not proceed the payment when clicking pay unless you send this event.
-It can be sent with the follow js code: this.send('payment-order-finalized', true);
-When this code snippet is run the checkout will continue the pay flow.
+```javascript
+checkout.on('pay-initialized', function(response) {
+  // Complete the desired operations such as update payment
+  // ...
+  checkout.send('payment-order-finalized', true);
+});
+```
+
+When this code snippet is run, the `Checkout` object will continue the pay flow.
 
 ### freezeCheckout()
 
@@ -102,7 +120,6 @@ Temporarily freezes (pauses) the checkout by disabling the payment button. Call 
 ```
 checkout.freezeCheckout();
 ```
-
 
 ### thawCheckout()
 
@@ -115,19 +132,6 @@ If this method is invoked after the order items has been updated, the amount wil
 checkout.thawCheckout();
 ```
 
-### setLanguage()
-
-Changes the display language on an active checkout session.
-
-#### Syntax
-```
-setLanguage(language)
-```
-
-#### Parameters
-```language``` - *required*
- 
- A string specifying the language.  See [supported language](#supported-languages).
 
 ### cleanup()
 
