@@ -1,11 +1,13 @@
-# Checkout.js
+# Checkout JavaScript API
 
 The `Checkout` object is the main object that dynamically builds the checkout form when embedding a checkout form on your site. The Checkout object is also the controller object that you use for communicating with Nets on the frontend of your site.
 
 ## Constructor
 
-```javascript
-Checkout(checkoutOptions: any)
+**Syntax**
+
+```
+var checkout = Checkout(checkoutOptions);
 ```
 The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
 
@@ -15,7 +17,7 @@ The `checkoutOptions` is described in the following section.
 
 When constructing a `Checkout` object, you are required to pass a `checkoutOptions` object with the following properties: 
 
-| Parameter   | Required/Optional | Description
+| Property   | Required/Optional | Description
 | :-----------| :-----------------: |:-----------
 | `checkoutKey`  | Required | Identifies your web site, see [Integration keys](access-your-integation-keys.md)
 | `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
@@ -24,66 +26,115 @@ When constructing a `Checkout` object, you are required to pass a `checkoutOptio
 | `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
 
 
+## Methods
 
-## The setTheme() method
+The `Checkout` object contains the following methods.
 
-```javascript
-public setTheme(theme: any)
-```
+
+### setTheme()
 
 Changes the UI theme on an active checkout session. See [UI theme][#ui-theme] section below.
 
-## The setLanguage() method
-
-```javascript
-public setLanguage(language: string)
+#### Syntax
+```
+checkout.setTheme(theme);
 ```
 
-## The send() method
+#### Parameters
+```theme``` - *required*
 
-```javascript
-public send(eventName: string, value?: any)
+A [theme](#ui-theme) dictionary specifying the style settings to be used.
+
+### setLanguage()
+
+Set the display language used on the checkout page for an ongoing payment session.
+
+#### Syntax
+```
+checkoutt.setLanguage(language);
 ```
 
+#### Parameters
+
+`language` - *required*
+An string 
+
+### send()
+
+ Send an event with a name that will be triggered within the checkout.
+
+#### Syntax
+```
+checkout.send(eventName, value)
+```
+
+#### Parameters
+
+`eventName` - *required*
+A string identifying the event to be sent. 
+
+`value` - *optional*
+An optional value for the specified event.
+
+
+| Event name                | Value                   | Description
+|---------------------------|-------------------------|--------------
+| `payment-order-finalized` | Boolean, always `true`  | Continues the pay flow
 
 Can be used to send an eventName that will be triggered within the checkout.
 For now the only eventName supported is 'payment-order-finalized', where the value should be a boolean set to true.
 
-An example of usage for this is when you listen to the event 'pay-initialized'.
+#### Example
+
+An example of usage for the event `'payment-order-finalized'`  is when you listen to the event `'pay-initialized'`.
 
 By listening to this event, the checkout flow will not proceed the payment when clicking pay unless you send this event.
 It can be sent with the follow js code: this.send('payment-order-finalized', true);
 When this code snippet is run the checkout will continue the pay flow.
 
-## The freezeCheckout() method
-
-```javascript
-public freezeCheckout()
-```
+### freezeCheckout()
 
 Temporarily freezes (pauses) the checkout by disabling the payment button. Call this method before updating the order items of an active checkout session. Once the order items have been updated, you should resume the checkout session by calling `thawCheckout()`.
 
-## The thawCheckout() method
-
-```javascript
-public thawCheckout()
+#### Syntax
+```
+checkout.freezeCheckout();
 ```
 
-Should be used after freezeCheckout(). This method will unfreeze the checkout, and it will also trigger to get the latest data on the payment. Normally used to update the order items, so if this is run after order items is updated, the pay amount will also be updated to the correct amount.
 
+### thawCheckout()
 
+Resumes a frozen checkout and triggers a reloading of the payment information. 
 
+If this method is invoked after the order items has been updated, the amount will also be updated to the correct amount.
 
-Changes the display language on an active checkout session. See [supported language](#supported-languages) section below.
-
-## The cleanup() method
-
-```javascript
-public cleanup()
+#### Syntax
 ```
+checkout.thawCheckout();
+```
+
+### setLanguage()
+
+Changes the display language on an active checkout session.
+
+#### Syntax
+```
+setLanguage(language)
+```
+
+#### Parameters
+```language``` - *required*
+ 
+ A string specifying the language.  See [supported language](#supported-languages).
+
+### cleanup()
 
 Removes all event listeners. 
 
+#### Syntax
+```
+cleanup()
+```
 
 
 
@@ -107,7 +158,7 @@ The following languages can be specified on the checkout page:
 
 ## UI theme
 
-You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using a `theme` object. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#the-settheme-method) method. A `theme` object contains the following properties:
+You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using a `theme` dictionary. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#the-settheme-method) method. A `theme` object can contain the following properties:
 
 
 | Property              | Description
