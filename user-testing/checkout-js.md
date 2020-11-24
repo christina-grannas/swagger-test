@@ -4,25 +4,24 @@ The `Checkout` object is the main object that dynamically builds the checkout fo
 
 ## Constructor
 
-The Checkout() constructor allows you to specify a large amount of setting to control:
-
-- The UI style (theme)
-- Language
-
 ```javascript
-The Checkout() cons
+Checkout(checkoutOptions: any)
 ```
+The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
+
+The `checkoutOptions` is described in the following section.
 
 ### Constructor parameters
 
+When constructing a `Checkout` object, you are required to pass a `checkoutOptions` object with the following properties: 
+
 | Parameter   | Required/Optional | Description
 | :-----------| :-----------------: |:-----------
-| `checkoutKey`  | Required | Identifier for your webshop, see [Integration keys](access-your-integation-keys.md)
-| `paymentId`	| Required | Reference to the `paymentId` token
+| `checkoutKey`  | Required | Identifies your web site, see [Integration keys](access-your-integation-keys.md)
+| `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM-element where the `iframe` will be loaded
 | `language` | Optional | Set the language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
-
 
 
 
