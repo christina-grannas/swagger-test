@@ -38,7 +38,7 @@ The `checkoutOptions` object contains the following properties:
 
 #### Example
 
-The following example creates a checkout page using English and buttons with rounded corners in the `<div>` with `id='checkout-container-div'`:
+The following example creates a checkout page using English and buttons with rounded corners in the `<div>` with id `checkout-container-div`:
 
 ```javascript
 var checkoutOptions = {
