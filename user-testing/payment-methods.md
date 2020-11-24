@@ -5,7 +5,7 @@ Easy Checkout by Nets includes the following payment methods:
 - **Card**, both [Visa](https:://visa.com/) and [Mastercard](https://www.mastercard.com/) are supported
 - **Invoice** offers your customer to pay within 30 days  
 - **Installments** splits a purchase into multiple payments
-- **Mobile wallets** such as [Swish](https://www.swish.nu) (Sweden), [Vipps](https://www.vipps.no) (Norway), and [MobilePay](https://www.mobilepay.dk/) (Denmark)
+- **Digital wallets** such as [Swish](https://www.swish.nu) (Sweden), [Vipps](https://www.vipps.no) (Norway), and [MobilePay](https://www.mobilepay.dk/) (Denmark)
 
 This page describes how to set up and use each of these payment methods correctly on your site.
 
@@ -25,7 +25,7 @@ An invoice payment is completed in two steps: **reservation** and **charge**.
 The reservation period for an invoice payment is 30 days, in order to receive funds for the payment you must make the charge within this period. You can attempt charging the payment after 30 days, however there is no guarantee that the charge will be accepted at this point.
  
 
-## Mobile wallets 
+## Digital wallets 
 
 Vipps is based on card transactions, please read the information about Card payments above.
 
