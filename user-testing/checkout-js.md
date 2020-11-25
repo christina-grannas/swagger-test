@@ -192,7 +192,7 @@ Removes all event listeners.
 #### Syntax
 
 ```javascript
-checkout.cleanup()
+checkout.cleanup();
 ```
 
 
