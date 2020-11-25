@@ -24,6 +24,9 @@ An invoice payment is completed in two steps: **reservation** and **charge**.
 
 The reservation period for an invoice payment is 30 days, in order to receive funds for the payment you must make the charge within this period. You can attempt charging the payment after 30 days, however there is no guarantee that the charge will be accepted at this point.
  
+## Installments
+
+TBD
 
 ## Digital wallets 
 
