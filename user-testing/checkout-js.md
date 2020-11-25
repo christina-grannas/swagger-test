@@ -35,7 +35,7 @@ The `Checkout` object is the main object that dynamically builds the checkout pa
 ## Constructor
 Constructs a new `Checkout` object. 
 
-During construction, the Checkout object communicates with the Nets Easy Checkout servers and immediately starts generating your embedded checkout page.
+During construction, the `Checkout` object communicates with the Nets Easy Checkout servers and immediately starts generating the checkout page in an embedded `iframe`.
 
 <!--
 The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
@@ -127,7 +127,7 @@ A UI [theme](#theme) dictionary specifying the style settings to be used.
 #### Syntax
 
 ```javascript
-checkout.send(eventName, value)
+checkout.send(eventName, value);
 ```
 
 #### Parameters
