@@ -15,4 +15,7 @@ For each environment, two keys are provided:
 - The Checkout key which is a public identifier for your webshop. This key can be passed from your frontend to Nets Easy as a public identifier. Each set of keys contains two 
 
 ## Copy your keys
-To access your keys, go to Company Integration in Easy portal. Depending on what environment you are using, copy the relevant set of integration keys as demonstrated in the following screenshot:
+To access your keys, navigate to [Company Integration](https://portal.dibspayment.eu/integration) in Easy portal. Depending on what environment you are using, copy the relevant set of integration keys as demonstrated in the following screenshot:
+
+
+![Easy Portal Company Integration](images/easy-portal-company-integration.png)

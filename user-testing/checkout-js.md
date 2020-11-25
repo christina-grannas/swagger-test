@@ -207,7 +207,7 @@ You can change the style of the checkout UI by specifying, fonts, colors, button
 | `primaryColor`        | Affects the pay button, default button outlines, and radio buttons
 | `buttonRadius`        | Radius of the buttons. Number, default 0.
 | `buttonTextColor`     | Text color for all buttons. Any CSS color.
-| `buttonFontWeight`    | [Font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) for butttons. Number (for example `500`) or string (for example `"bold"`)
+| `buttonFontWeight`    | [Font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) for buttons. Number (for example `500`) or string (for example `"bold"`)
 | `buttonFontStyle`     | [Font style](https://developer.mozilla.org/en-US/docs/Web/CSS/font-style) such as `"italic"` and `"oblique"`. <br>String, default `"normal"`
 | `buttonTextTransform` | [Text transform](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform). String, default `"none"`.
 | `footerBackgroundColor` | Background color of the footer
