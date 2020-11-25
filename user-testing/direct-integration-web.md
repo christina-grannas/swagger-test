@@ -11,9 +11,10 @@ This guide is for developers who want to add online payments to their website us
 
 Before you start you need:
 
-1. An Easy Portal Account (Why?)
-2. Your Integration keys for the website you are developing
-3. Basic skills in HTML, JavaScript, and JSON (JavaScript Object Notation)
+1. An [Easy Portal Account](create-account.md)
+2. Your [Integration keys](access-your-integration-keys.md) for the website you are developing
+3. A running web server which can host static HTML pages and execute server side scripts. We will use PHP in this guide.   
+4. Basic skills in PHP, HTML, JavaScript, and JSON (JavaScript Object Notation)
 
 
 ## Overview
@@ -86,7 +87,7 @@ var checkout_func = function (paymentId) {
 }
 ```
 
-When the customer clicks the button, this event handler will send an HTTP request to the backend of your site, which in turn will create a new payment object. We will get back to the frontside JavaScript in a while. But first, let's implement the backend responsible for creating the payment object.
+When the customer clicks the button, this event handler will send an HTTP request to the backend of your site, which in turn will create a new payment object. We will get back to the front-end JavaScript in a while. But first, let's implement the backend responsible for creating the payment object.
 
 
 ## Step 2: Create a payment object (backend)
@@ -98,6 +99,12 @@ Each payment session is represented by a payment object. In order to start a che
 
 ```php
 <?php   
+
+  function get_request_body() {
+    // Generate your JSON request body here...
+    return "{}";
+  }
+
   $payload = get_request_body(); // Returns a JSON string  
    $ch = curl_init('https://test.api.dibspayment.eu/v1/payments');                                                                    
    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                   
@@ -106,14 +113,16 @@ Each payment session is represented by a payment object. In order to start a che
    curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                        
        'Content-Type: application/json',
        'Accept: application/json',
-       'Authorization: b17758ca569047bdb574aaa2c32f1446')                                                                 
+       'Authorization: b17758ca569047bdb574aaa2c32f1446') // Important: Replace with your key                                                                
    );                                                                                                                                                              
    $result = curl_exec($ch);
    echo($result);        // Forward result back to frontend
 ?>
 ```
-
-The request body we send JSON object defined like this:
+In this example, the function `get_request_body()` is just an empty placeholder. 
+This is the place where you should dynamically create a JSON object based on 
+your customers' order items.
+Below is an example of a static JSON object that can be used for testing the checkout page:
 
 ```json
 {
@@ -135,18 +144,22 @@ The request body we send JSON object defined like this:
   },
   "checkout": {
     "integrationType": "EmbeddedCheckout",       
-    "url": "https://example.se/shop/checkout",   // Replace!
-    "termsUrl": "https://example.com/shop/terms" // Replace!
+    "url": "https://example.se/shop/checkout",   // Important: Replace with your checkout page
+    "termsUrl": "https://example.com/shop/terms" // Replace
   }
 }
 ```
 
-Make sure you replace the line:
-```json
-  "url": "https://example.se/shop/checkout",
-```
-with the URL to the checkout page on your site, or the page will fail to load later on when we use the JavaScript library Checkout.js. 
+---
 
+**NOTE**
+Make sure you replace the lines:
+```json
+  "url": "https://example.se/shop/checkout", // Important: Replace with your checkout page
+```
+with the URL to the checkout page on your site, or the page will fail to load later on when using [Checkout.js](checkout-js.md). You should eventually replace the [`termsUrl`](https://example.com/api) as well, with a URL to your site.
+
+---
 
 The request body includes:
 
@@ -161,23 +174,21 @@ You should now be able to click the "Checkout!" button and thereafter see the pa
 
 
 
-
-
-Now when the backend part is implemented it's time to go back to the frontend code and use the paymentId to create the payment view.
+Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the payment view.
 
 
 ## Step 3: Use Checkout.js to build checkout iframe
 
-Once we have a paymentId, we can create the payment form using a JavaScript library provided by Nets, called Checkout.js which is fully documented in the  API reference. First you need to load it:
+Once we have a `paymentId`, we can create the payment form using a JavaScript library provided by Nets called [Checkout.js](checkout-js.md). First you need to load it:
 
 ```html
 <script src="https://test.checkout.dibspayment.eu/v1/checkout.js?v=1"></script>
 ```
 
-Since we are using the test environment, you should load the JavaScript from test.checkout.dibspayment.eu. 
+Since we are using the test environment, you should load the JavaScript from `test.checkout.dibspayment.eu`. 
 
 
-Now we are ready to implement the function checkout_func() which we left empty in step 1. Here is the code for creating the checkout view using Checkout:
+Now we are ready to implement the function `checkout_func()` which we left empty in step 1. Here is the code for creating the checkout view using Checkout:
  
  ```javascript
 var checkout_func = function (paymentId) {
