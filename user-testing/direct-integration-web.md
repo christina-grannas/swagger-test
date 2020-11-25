@@ -11,8 +11,8 @@ This guide is for developers who want to add online payments to their website us
 
 Before you start you need:
 
-1. An [Easy Portal Account](create-account.md)
-2. Your [Integration keys](access-your-integration-keys.md) for the website you are developing
+1. An [Easy Portal account](https://https://portal.dibspayment.eu). Need [help](create-account.md)?
+2. Your [Integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. Need [help](access-your-integration-keys.md)? 
 3. A running web server which can host static HTML pages and execute server side scripts. We will use PHP in this guide.   
 4. Basic skills in PHP, HTML, JavaScript, and JSON (JavaScript Object Notation)
 
