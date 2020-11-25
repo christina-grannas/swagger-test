@@ -6,7 +6,7 @@ The test environment comprises:
 
 - [Integration keys](access-your-integration-keys.md) for testing
 - Test [API](http://example.com/api) available at the base address: ```https://test.api.dibspayment.eu```
-- [Checkout.js](http://example.com/checkout.js) available at:
+- [Checkout.js](checkout-js.md) available at:
  ```https://test.checkout.dibspayment.eu/v1/checkout.js?v=1```
 - Sample credit cards ([see below](#sample-cards))
 - Sample invoice addresses ([see below](#sample-invoice-addresses))
