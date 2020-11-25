@@ -334,7 +334,7 @@ The following languages can be used on the checkout page:
 
 ## Theme
 
-You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using the `theme` dictionary. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#the-settheme-method) method. A `theme` object can contain the following properties:
+You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using the `theme` dictionary. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#settheme) method. A `theme` object can contain the following properties:
 
 
 | Property              | Description
