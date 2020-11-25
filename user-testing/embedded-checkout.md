@@ -109,7 +109,7 @@ Create a file called `create-payment.php` and add the following code to it:
 
   function get_request_body() {
     // Generate your JSON request body here...
-    return "{}";
+    return '<YOUR_JSON_OBJECT_HERE>'; 
   }
 
   $payload = get_request_body(); // Returns a JSON string
@@ -120,24 +120,26 @@ Create a file called `create-payment.php` and add the following code to it:
    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
        'Content-Type: application/json',
        'Accept: application/json',
-       'Authorization: b17758ca569047bdb574aaa2c32f1446') // Important: Replace with your key
+       'Authorization: <YOUR_SECRET_API_KEY>') // Important: Replace with your key
    );
    $result = curl_exec($ch);
    echo($result);        // Forward result back to frontend
 ?>
 ```
+Replace the text `<YOUR_SECRET_API_KEY>` with your secret API key.
 
 In this example, the function `get_request_body()` is just an empty placeholder.
 This is the place where you should dynamically create a JSON object based on
-your customers' order items.
-Below is an example of a static JSON object that can be used for testing the checkout page:
+your customers' order items. For now, you can just add a static JSON string. 
+Below is an example that can be used for testing:
+
 
 ```json
 {
   "checkout": {
     "integrationType": "EmbeddedCheckout",
-    "url": "https://<YOUR_DOMAIN>/<YOUR_CHECKOUT_PAGE>",
-    "termsUrl": "https://<YOUR_DOMAIN>/<YOUR_PAYMENT_TERMS>"
+    "url": "https://<YOUR_SERVER>/checkout.html",
+    "termsUrl": "https://<YOUR_SERVER>/terms.htmtl"
   },
   "order": {
     "items": [
@@ -161,12 +163,11 @@ Below is an example of a static JSON object that can be used for testing the che
 ---
 
 **NOTE**
+
 Make sure you replace the line:
-
 ```json
-   "url": "https://<YOUR_DOMAIN>/<YOUR_CHECKOUT_PAGE>",
+    "url": "https://<YOUR_SERVER>/checkout.html",
 ```
-
 with the URL to the checkout page on your site, or the page will fail to load later on when using [Checkout.js](checkout-js.md). You should eventually replace the [`termsUrl`](https://example.com/api) as well, with a URL to your site describing your Payment Terms.
 
 ---
@@ -180,12 +181,13 @@ The request body includes:
 
 You should now be able to click the "Checkout!" button and thereafter see the paymentId printed to the JavaScript console in your web browser. Here an example of how the console should look after clicking the button:
 
-Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the payment view.
+Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the checkout page with the payment view.
 
 3. Add a checkout page (frontend)
 
 It's time to create the HTML page that will embed the checkout `iframe`. Add the following HTML code into a new file called `checkout.html`:
 
+```javascript
 <!DOCTYPE html>
 <!--
   checkout.html
@@ -201,6 +203,7 @@ It's time to create the HTML page that will embed the checkout `iframe`. Add the
    <script src="checkout-helper.js"></script>
  </body>
 </html>
+```
 
 
 The container element `<div id="checkout-container-div">` is the place where we  will embed the checkout `iframe` eventually. Two JavaScripts are embedded: `checkout.js` from Nets and our own `checkout-helper.js` which we will implement in the next step.
