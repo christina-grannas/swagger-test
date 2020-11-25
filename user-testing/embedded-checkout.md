@@ -126,7 +126,7 @@ Create a file called `create-payment.php` and add the following code to it:
    echo($result);        // Forward result back to frontend
 ?>
 ```
-Replace the text `<YOUR_SECRET_API_KEY>` with your secret API key.
+Replace the text `<YOUR_SECRET_API_KEY>` with your [Secret API key](https://portal.dibspayment.eu/integration).
 
 In this example, the function `get_request_body()` is just an empty placeholder.
 This is the place where you should dynamically create a JSON object based on
@@ -217,7 +217,7 @@ The `checkout.html` page should always be requested with a URL parameter called 
 
 ## Step 4: Generate checkout iframe using `Checkout.js`
 
-It's time to create the final JavaScript that will communicate with Nets using `Checkout.js`. 
+It's time to create the final JavaScript that will communicate with Nets Easy Checkout using `Checkout.js`. 
 
 Create a file called `checkout-helper.js` and add the following JavaScript code:
 
@@ -231,32 +231,29 @@ document.addEventListener('DOMContentLoaded', function () {
   const paymentId = urlParams.get('paymentId');
   if (paymentId) {
     const checkoutOptions = {
-      checkoutKey: '<YOUR_CHECKOUT_KEY>', // [Required] Test or Live GUID with dashes
+      checkoutKey: '<YOUR_CHECKOUT_KEY>', // Replace!
       paymentId: paymentId,
       containerId: "checkout-container-div",
     };
     const checkout = new Dibs.Checkout(checkoutOptions);
-      checkout.on('payment-completed', function (response) {
-      console.log("completed: response");
-      console.log(response);
+    checkout.on('payment-completed', function (response) {
       window.location = 'payment-completed.html';
     });
   } else {
-    console.error("Expected a paymentId"); // paymentId required
+    console.log("Expected a paymentId");   // No paymentId provided, 
+    window.location = 'cart.html';         // go back to cart.html
   }
 });
 ```
 
+Replace `<YOUR_CHECKOUT_KEY>` with your [checkout key](https://portal.dibspayment.eu/integration) for the [test environment](test-environment.md).
+
 For the `Checkout.js` script to load correctly, it's important that you have specified the correct URL to your checkout page in step 3.
 
-The checkout object will fire the event `'payment-completed'` once the payment has completed. The callback function we provide navigate to payment-completed.html which we will create in the next step.
+The checkout object will fire the event `'payment-completed'` once the payment has completed. The callback function we provide navigate to `payment-completed.html` which we will create in the next step.
 
-### Troubleshooting
-You should now be able to see a payment form
-- Make sure you specified the correct URL to your checkout page in step 4.
-- 
 
-## Step 4: Add a complete payment page
+## Step 5: Add a complete payment page
 
 Add the following page to your site and name it payment-completed.html:
 
@@ -268,16 +265,16 @@ Add the following page to your site and name it payment-completed.html:
   </head>
   <body>
     <h1>Payment completed!</h1>
-    <a href="index.html">Try again</a>
+    <a href="cart.html">Try again</a>
   </body>
 </html>
 ```
 
 That's it! Now it's time test and verify that your new embedded checkout page is working.
 
-## Step 5: Test your checkout page
+## Step 6: Test your checkout page
 
-You should now have a rudimentary checkout page that can be tested using the test cards that can be found at the page Test environment.
+You should now have a rudimentary checkout page that can be tested using the test cards that can be found at the page [Test environment](test-environment.md).
 
 Here is how you test your new checkout page:
 
