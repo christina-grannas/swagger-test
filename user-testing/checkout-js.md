@@ -1,30 +1,4 @@
 
-<!--
-Sara: Underrubriker i Checkout.js-menyn:
-
-Constructor
-
-Methods
-  setLanguage()
-  setTheme()
-  send()
-  freezeCheckout()
-  thawCheckout()
-  cleanup()
-
-Events
-  pay-initialized
-  payment-completed
-  address-changed
-
-Supported languages
-
-Theme
-
-
---->
-
-
 
 # Checkout JavaScript API (frontend)
 

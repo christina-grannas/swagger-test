@@ -16,7 +16,7 @@ The Easy checkout supports Visa and Mastercard payments. A card payment is handl
 We recommend that you charge a card payment when shipping the goods.
 Please be aware that the payment reservation is valid up to 30 days, you must charge the payment within this time frame.
 We recommend that you use webhooks for card payments, visit this page and go to the Webhooks section for more information.
-Card payments on Easy requires 3D Secure, which affects the payment flow. For more information on how 3D Secure is handled, see section 2. Initialize the checkout on this page.
+Card payments on Easy requires 3-D Secure, which affects the payment flow. For more information on how 3-D Secure is handled, see [Direct integration](#direct-integration-web.md).
  
 
 ## Invoice
