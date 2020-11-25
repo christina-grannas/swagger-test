@@ -225,7 +225,7 @@ checkout.on('pay-initialized', function(response) {
   // Complete the desired operations such as update payment
   // ...
 
-	checkout.send('payment-order-finalized', true);
+  checkout.send('payment-order-finalized', true);
 });
 ```
 
@@ -257,12 +257,12 @@ The response parameter contains the `paymentId`.
 
 this is the event that the merchant should listen to redirect to the “payment-is-ok” page
 checkout.on('payment-completed', function(response) {
-    var paymentId = response['paymentId'];
-    // Register a successful payment in your DB using the paymentId
-    // ...
+  var paymentId = response['paymentId'];
+  // Register a successful payment in your DB using the paymentId
+  // ...
     
-    // Redirect your customer to a "Payment success" page
-    window.location = '/PaymentSuccessful';
+  // Redirect your customer to a "Payment success" page
+  window.location = '/PaymentSuccessful';
 });
 ```
 
@@ -295,24 +295,24 @@ This example demonstrates how to update shipping cost whenever the customer upda
 
 ```javascript
 checkout.on('address-changed', function(address) { 
-    if (address) { 
-        // Address has changed, freeze checkout while updating the shipping cost
-        checkout.freezeCheckout();
+  if (address) {                // Address has changed
+    checkout.freezeCheckout();  // Freeze checkout while updating shipping cost
 
-        var zip = address.postalCode;
-        var country = address.countryCode;
+    var zip = address.postalCode;
+    var country = address.countryCode;
 
-        calculateShippingCost(zip, country).then(function(response) {
-            // Call "update cart" method on the payment API with the updated shipping cost
-            // ... 
+    calculateShippingCost(zip, country).then(function(response) {
+      // Call "update cart" method on the Payment API 
+      // with the updated shipping cost.
+      // ...
 
-            // Resume checkout
-            checkout.thawCheckout();
-        });
-    }
+      checkout.thawCheckout();  // Resume checkout
+    });
+  }
 });
 ```
 
+For more information about adding and updating shipping costs to your site, see [Add shipping cost](add-shipping-cost.md).
 
 ## Supported languages
 
