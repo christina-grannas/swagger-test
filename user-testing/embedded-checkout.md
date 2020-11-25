@@ -17,19 +17,19 @@ Before you start you need:
 
 Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). [Payment methods](payment-methods.md) supported by Easy Checkout include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
 
-The backend server of your website communicates with Nets Easy Checkout over RESTful APIs using your Secret API key. The frontend of your website uses Checkout.js provided by Nets to handle the API integration with Easy Checkout. The frontend of your site uses the Merchant key to identify your webshop when communicating with Nets.
+The backend of your website communicates with Nets Easy Checkout over RESTful APIs using your Secret API key. The frontend of your website uses Checkout.js provided by Nets to handle the API integration with Easy Checkout. The frontend of your site uses the Merchant key to identify your webshop when communicating with Nets.
 
 Nets Easy, also provides a ready-made checkout page that can be customized and embedded into your webshop.
 
 ## What you are building
 
-In this guide, you will embed a checkout page to your webshop in five steps:
+In this guide, you will embed a checkout page to your webshop in six steps:
 
 1. Initiate the checkout from your site (frontend)
 2. Create a payment object (backend)
 3. Add a checkout page (frontend)
 4. Embed the checkout iframe using [Checkout.js](checkout-js.md) (frontend)
-5. Add a complete payment page (frontend)
+5. Add a "payment completed" page (frontend)
 6. Test your checkout page
 
 ## Step 1: Initiate the checkout from your site (frontend)
@@ -39,7 +39,8 @@ The checkout is initiated from the client. We will start implementing the checko
 - A `<button>` that will allow the customer to initiate the checkout
 - An JavaScript event handler attached to the button
 
-We'll begin with a minimal HTML page called `cart.html`:
+Create a file named `cart.html`. The content below will serve as a minimal starting point for the
+payment flow:
 
 ```html
 <!DOCTYPE html>
@@ -88,11 +89,15 @@ document.getElementById('checkout-button').addEventListener('click', function ()
 
 ```
 
-When clicking the checkout button, this event handler will send an asynchronous request over HTTPS to the backend of your site, which in turn will create a new payment object. Let's turn to the backend of your site and implement the `create-payment.php` script.
+When clicking the checkout button, this event handler will send an asynchronous request over HTTPS to the backend of your site. If you try clicking the Checkout button now, you will receive a HTTP 404 error, because the script `create-payment.php` is not found yet. (You can verify this by inspecting the JavaScript Console in your browser). 
+
+Let's fix this 404 error and turn to the backend and implement the `create-payment.php` script.
+
+<!-- which in turn will create a new payment object. Let's turn to the backend and implement the `create-payment.php` script.-->
 
 ## Step 2: Create a payment object (backend)
 
-Each payment session is represented by a payment object. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site.
+Each payment session is represented by a payment object. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site. Creating the payment object is the responsibility of the script `create-payment.php`.
 
 Create a file called `create-payment.php` and add the following code to it:
 
