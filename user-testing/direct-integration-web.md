@@ -125,6 +125,11 @@ Below is an example of a static JSON object that can be used for testing the che
 
 ```json
 {
+  "checkout": {
+    "integrationType": "EmbeddedCheckout",       
+    "url": "https://<YOUR_DOMAIN>/<YOUR_CHECKOUT_PAGE>",
+    "termsUrl": "https://<YOUR_DOMAIN>/<YOUR_PAYMENT_TERMS>"
+  },
   "order": {
     "items": [
       {
@@ -140,11 +145,6 @@ Below is an example of a static JSON object that can be used for testing the che
      "amount": 160000,
      "currency": "SEK",
      "reference": "Demo Order"
-  },
-  "checkout": {
-    "integrationType": "EmbeddedCheckout",       
-    "url": "https://<your-domain>/<your-checkout-page>",
-    "termsUrl": "https://<your-domain>/<your-terms>"
   }
 }
 ```
@@ -154,9 +154,9 @@ Below is an example of a static JSON object that can be used for testing the che
 **NOTE**
 Make sure you replace the lines:
 ```json
-   "url": "https://<your-domain>/<your-checkout-page>",
+   "url": "https://<YOUR_DOMAIN>/<YOUR_CHECKOUT_PAGE>",
 ```
-with the URL to the checkout page on your site, or the page will fail to load later on when using [Checkout.js](checkout-js.md). You should eventually replace the [`termsUrl`](https://example.com/api) as well, with a URL to your site.
+with the URL to the checkout page on your site, or the page will fail to load later on when using [Checkout.js](checkout-js.md). You should eventually replace the [`termsUrl`](https://example.com/api) as well, with a URL to your site describing your Payment Terms.
 
 ---
 

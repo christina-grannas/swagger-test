@@ -1,4 +1,4 @@
-# Easy Payment Methods
+# Easy Checkout Payment Methods
 
 Easy Checkout by Nets includes the following payment methods:
 

@@ -1,3 +1,31 @@
+
+<!--
+Sara: Underrubriker i Checkout.js-menyn:
+
+Constructor
+
+Methods
+  setLanguage()
+  setTheme()
+  send()
+  freezeCheckout()
+  thawCheckout()
+  cleanup()
+
+Events
+  pay-initialized
+  payment-completed
+  address-changed
+
+Supported languages
+
+Theme
+
+
+--->
+
+
+
 # Checkout JavaScript API (frontend)
 
 The `Checkout` object is the main object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object also handles the communication between the frontend of your site and Nets.
@@ -35,7 +63,7 @@ The `checkoutOptions` object contains the following properties:
 | `partnerMerchantNumber` | Optional  | Partner identifer
 |  `containerId` |  Optional | ID of the DOM element on your site where the `iframe` will be loaded
 | `language` | Optional | Language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
-| `theme` | Optional | A dictionary. See [UI theme](#ui-theme) below.
+| `theme` | Optional | A dictionary. See UI [theme](#theme) below.
 
 #### Example
 
@@ -59,22 +87,6 @@ var checkout = new Dibs.Checkout(checkoutOptions);
 
 The `Checkout` object contains the following methods.
 
-### setTheme()
-
-Changes the UI theme on an active checkout session. See [UI theme](#ui-theme) section below.
-
-#### Syntax
-
-```javascript
-checkout.setTheme(theme);
-```
-
-#### Parameters
-`theme` - *required*
-
-A UI [theme](#ui-theme) dictionary specifying the style settings to be used.
-
-
 
 ### setLanguage()
 
@@ -91,6 +103,22 @@ checkout.setLanguage(language);
 `language` - *required*
  A string specifying the language.  See [supported language](#supported-languages).
 
+
+
+### setTheme()
+
+Changes the UI theme on an active checkout session. See UI [theme](#theme) section below.
+
+#### Syntax
+
+```javascript
+checkout.setTheme(theme);
+```
+
+#### Parameters
+`theme` - *required*
+
+A UI [theme](#theme) dictionary specifying the style settings to be used.
 
 ### send()
 
@@ -113,12 +141,12 @@ A string identifying the event to be sent.
 An optional value for the specified event.
 
 
-| Event name                | Value                   | Description
-|---------------------------|-------------------------|--------------
-| `payment-order-finalized` | Boolean, always `true`  | Continues the pay flow
+| Event name                  | Value                   | Description
+|-----------------------------|-------------------------|--------------
+| `'payment-order-finalized'` | Boolean, always `true`  | Continues the pay flow
 
-Can be used to send an eventName that will be triggered within the checkout.
-For now the only eventName supported is 'payment-order-finalized', where the value should be a boolean set to true.
+Can be used to send an event that will be triggered within the checkout.
+For now the only event supported is `'payment-order-finalized'`, where the value should be a boolean set to `true`.
 
 #### Example
 
@@ -168,6 +196,123 @@ checkout.cleanup()
 ```
 
 
+## Events
+
+This section describes the checkout events that you can listen for and handle programmatically.
+
+### pay-initialized
+
+Triggers when your customer clicks the pay button and is sent to the [3-D Secure](https://en.wikipedia.org/wiki/3-D_Secure) page for securing the authenticity of the parties involved in the payment.
+
+
+#### Syntax
+```javascript
+checkout.on('pay-initialized', event_handler);
+```
+
+
+#### Parameters
+
+`event_handler` - *required*
+
+An event handler accepting a `response` parameter. 
+The response parameter contains the `paymentId`.
+
+#### Example
+
+```javascript
+checkout.on('pay-initialized', function(response) {
+  // Complete the desired operations such as update payment
+  // ...
+
+	checkout.send('payment-order-finalized', true);
+});
+```
+
+### payment-completed
+
+Triggers after a successful payment. 
+This is the event that you should listen to in order to redirect your customer to a "Payment Success" page.
+
+#### Syntax
+```javascript
+checkout.on('payment-completed', event_handler);
+```
+
+#### Parameters
+
+`event_handler` - *required*
+
+An event handler accepting a `response` parameter with the following properties:
+
+| Property      | Description
+|---------------|---------------
+| `paymentId`  | string 
+| `countryCode` | string
+The response parameter contains the `paymentId`.
+
+#### Example
+
+```javascript
+
+this is the event that the merchant should listen to redirect to the “payment-is-ok” page
+checkout.on('payment-completed', function(response) {
+    var paymentId = response['paymentId'];
+    // Register a successful payment in your DB using the paymentId
+    // ...
+    
+    // Redirect your customer to a "Payment success" page
+    window.location = '/PaymentSuccessful';
+});
+```
+
+
+### address-changed
+
+Triggers whenever your customer updates address information.
+This is the event that you should listen to in order to update shipping cost based on your customer's location.
+
+#### Syntax
+```javascript
+checkout.on('address-changed', event_handler);
+```
+
+#### Parameters
+
+`event_handler` - *required*
+
+An event handler accepting an `address` parameter. The `address` object contains the following properties:
+
+| Property      | Description
+|---------------|---------------
+| `postalCode`  | String 
+| `countryCode` | String
+
+
+#### Example
+
+This example demonstrates how to update shipping cost whenever the customer updates the address. 
+
+```javascript
+checkout.on('address-changed', function(address) { 
+    if (address) { 
+        // Address has changed, freeze checkout while updating the shipping cost
+        checkout.freezeCheckout();
+
+        var zip = address.postalCode;
+        var country = address.countryCode;
+
+        calculateShippingCost(zip, country).then(function(response) {
+            // Call "update cart" method on the payment API with the updated shipping cost
+            // ... 
+
+            // Resume checkout
+            checkout.thawCheckout();
+        });
+    }
+});
+```
+
 
 ## Supported languages
 
@@ -187,7 +332,7 @@ The following languages can be used on the checkout page:
 | `fi-FI` | Finnish   
 	
 
-## UI theme
+## Theme
 
 You can change the style of the checkout UI by specifying, fonts, colors, button styles and more using the `theme` dictionary. It can be passed to the `Checkout` [constructor](#constructor) or by using the [`setTheme()`](#the-settheme-method) method. A `theme` object can contain the following properties:
 
