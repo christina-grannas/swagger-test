@@ -19,14 +19,15 @@ Before you start you need:
 
 ## Overview
 
-Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). Payment methods supported by Easy Checkout include cards, invoices, installments, and digital wallets such as Swish, Vipps, and MobilePay.
+Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). [Payment methods](payment-methods.md) supported by Easy Checkout include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
 
 
 The backend server of your website communicates with Nets Easy Checkout over RESTful APIs using your Secret API key. The frontend of your website uses Checkout.js provided by Nets to handle the API integration with Easy Checkout. The frontend of your site uses the Merchant key to identify your webshop when communicating with Nets.
   
 
 Nets Easy, also provides a ready-made checkout page that can be customized and embedded into your webshop. 
-What you are building
+
+## What you are building
 In this guide, you will embed a checkout page to your webshop in five steps:
 
 1. Initiate the checkout from your site (frontend)
