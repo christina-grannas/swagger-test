@@ -162,10 +162,10 @@ Below is an example that can be used for testing:
 
 The request body includes:
 
-- **Type of integration** which specify that you want to *embed* a checkout `iframe` on your page (rather than using a pre-built checkout page hosted by Nets).
-- **The checkout URL** to your site. This URL need to match the URL to your checkout page exactly, including protocol (http/https) and the fully qualified domain name (FQDN).
-- **The terms URL** - a URL to a page that describes the payment terms for your webshop.
-- **Order details** including order items, total amount, and currency
+- **Integration type**: specifies whether you want to *embed* a checkout `iframe` on your page or use a pre-built checkout page hosted by Nets.
+- **Checkout URL**: The URL to your checkout page. This URL need to match the URL to your checkout page exactly, including protocol (http/https) and the fully qualified domain name (FQDN).
+- **Terms URL**: A URL to a page on your site that describes the payment terms for your webshop.
+- **Order details**: Includes order items, total amount, and currency
 
 ---
 
