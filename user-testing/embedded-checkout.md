@@ -278,17 +278,22 @@ You should now have a rudimentary checkout page that can be tested using the tes
 
 Here is how you test your new checkout page:
 
-1. Reload the index.html page
-2. Click the "Checkout!" button
+1. Reload the `cart.html` page
+2. Click the "Proceed to Checkout" button
 3. Fill out the address form using your email, phone, and postal code
-4. Insert any of the sample card number
-5. Fill the Expire date field with the month and year of today
-6. Fill the CVC field with three arbitrary digits (123 for example)
+4. Insert any of the sample card numbers
+5. Fill the "Expire date" field with the month and year of today
+6. Fill the "CVC" field with three arbitrary digits (123 for example)
 7. Click the "Pay" button
 
-The simulated payment processing should now start and eventually get you back to the payment-completed.html page you created in the previous step.
+The simulated payment processing should now start and eventually get you back to the `payment-completed.html` page you created in the previous step.
 
 ## Troubleshooting
+
+- Verify that you are using the correct [Integration keys](access-your-integration-keys.md) for the [test environment](test-environment.md).
+- `Checkout.js` will fail to load unless you provide the correct checkout URL in the JSON body specified in the server-to-server request when creating the `paymentId`.
+- When changing the checkout URL, make sure you reload `cart.html` so that a new payment session is created (and a new `paymentId`).
+
 
 ## Next steps
 
