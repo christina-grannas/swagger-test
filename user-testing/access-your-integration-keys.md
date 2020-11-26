@@ -168,7 +168,6 @@ The request body includes:
 - **Order details**: Includes order items, total amount, and currency
 
 ---
-
 **NOTE**
 
 Make sure you replace the line:
