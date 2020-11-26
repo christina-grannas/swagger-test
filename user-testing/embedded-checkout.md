@@ -160,6 +160,13 @@ Below is an example that can be used for testing:
 }
 ```
 
+The request body includes:
+
+- **Type of integration** which specify that you want to *embed* a checkout `iframe` on your page (rather than using a pre-built checkout page hosted by Nets).
+- **The checkout URL** to your site. This URL need to match the URL to your checkout page exactly, including protocol (http/https) and the fully qualified domain name (FQDN).
+- **The terms URL** - a URL to a page that describes the payment terms for your webshop.
+- **Order details** including order items, total amount, and currency
+
 ---
 
 **NOTE**
@@ -172,14 +179,10 @@ with the URL to the checkout page on your site, or the page will fail to load la
 
 ---
 
-The request body includes:
 
-- Order details including order items, total amount, and currency
-- Checkout page settings which specify that you want to embed the checkout view on your page (rather than using a pre-built checkout page hosted by Nets).
-- The url to your site
-  This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides Updating order, Add shipping cost, and the API reference for more info.
+This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides Updating order, Add shipping cost, and the API reference for more info.
 
-You should now be able to click the "Checkout!" button and thereafter see the paymentId printed to the JavaScript console in your web browser. Here an example of how the console should look after clicking the button:
+You should now be able to click the "Proceed to Checkout" button and thereafter see the `paymentId` printed to the JavaScript console in your web browser. Here an example of how the console should look after clicking the button:
 
 Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the checkout page with the payment view.
 
@@ -234,6 +237,9 @@ document.addEventListener('DOMContentLoaded', function () {
       checkoutKey: '<YOUR_CHECKOUT_KEY>', // Replace!
       paymentId: paymentId,
       containerId: "checkout-container-div",
+      theme: {
+        buttonRadius: "5px"
+      }
     };
     const checkout = new Dibs.Checkout(checkoutOptions);
     checkout.on('payment-completed', function (response) {
