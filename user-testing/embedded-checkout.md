@@ -183,7 +183,7 @@ You should now be able to click the "Checkout!" button and thereafter see the pa
 
 Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the checkout page with the payment view.
 
-3. Add a checkout page (frontend)
+## Step 3: Add a checkout page (frontend)
 
 It's time to create the HTML page that will embed the checkout `iframe`. Add the following HTML code into a new file called `checkout.html`:
 
