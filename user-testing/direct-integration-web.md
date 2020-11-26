@@ -296,7 +296,7 @@ The simulated payment processing should now start and eventually get you back to
 ## Troubleshooting
 
 - Verify that you are using the correct [Integration keys](access-your-integration-keys.md) for the [test environment](test-environment.md).
-- `Checkout.js` will fail to load unless you provide the correct checkout URL in the JSON body specified in the server-to-server request when creating the `paymentId`.
+- `Checkout.js` will fail to load unless you provide the correct checkout URL in the JSON body specified in [Step 2](#step-2-create-a-payment-object-backend) when creating the `paymentId`.
 - When changing the checkout URL, make sure you reload `cart.html` so that a new payment session is created (and a new `paymentId`).
 
 
