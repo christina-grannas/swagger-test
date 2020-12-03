@@ -14,7 +14,7 @@ If you are not familiar with Easy Checkout and the Easy portal, please read the 
 
 ## Set a display language
 
-You can change the language of the checkout page by changing the 
+You can change the **language** of the checkout page by changing the 
 
 ## Configure UI theme
 
@@ -35,26 +35,27 @@ However, the Checkout styler is easier to use and also contains an accessibility
 ### Specify theme using the Checkout JS API
 
 If you are using an embedded checkout page, you can pass a `theme` object to the `Checkout` constructor or to the method `setTheme()`. 
-The following example changes the background color of the panel:
+The following example defines a gray background color but keeps the panel elements white:
 
-```json
-
-var checkout = new Checkout();
-
+```javascript
+// ...
+var checkout = new Dibs.Checkout(checkoutOptions);
+var theme = {
+  "backgroundColor": "#F2F2F2",
+  "panelColor": "white",
+};
+checkout.setTheme(theme);
+// ...
 ```
 
+---
 
-### The anatomy of the checkout form
+**Trouble shooting:**
 
+It's not possible to combine style settings from the Checkout styler and the Checkout JS API. If you have defined a style in Checkout styler you cannot override the style using the setTheme(). In order to use the setTheme() API you have to **delete** all your custom themes from the [Checkout styler](https://portal.dibspayment.eu/account/checkout-styler).
+![Delete theme](images/delete-theme.png)
 
-Panel
-Footer
-
-
-For example, if you have a site with a dark background and light foreground colors, you might want to adjust the styling of the embedded checkout form so that it matches the rest of your site.
-
-
-The following example shows how you can specify a dark theme with custom 
+---
 
 
 
