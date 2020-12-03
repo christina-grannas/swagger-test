@@ -58,14 +58,15 @@ The following example shows how you can specify a dark theme with custom
 
 
 
-## Customize form data fields
+## Customize form input fields
 
-Easy Checkout supports two types of customers:
+The form input fields on the checkout page are adapted for the type of customer you have. Easy Checkout supports two types of customers:
 
 - **Private** customers or **B2C** (Business-to-Consumer)
 - **Business** customers or **B2B** (Business-to-Business)
 
 ### Private customers (B2C)
+
 Private customers registers with: **email address**, **postal code**, **personal security number**, and **phone number**.
 Easy Checkout does a lookup and retrieves the **first name**, **last name** and the **civil registration address**.
 
