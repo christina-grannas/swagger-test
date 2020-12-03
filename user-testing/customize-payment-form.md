@@ -88,9 +88,9 @@ There are three ways you can configure customer type:
 
 - **B2C** - only allow private customers
 - **B2B** - only allow business customers
-- **B2C** and **B2B** - a switch is added to the checkout page so that your customer can choose between a **Business checkout** or a **Private checkout**.
+- **B2C** and **B2B** - a switch is added to the checkout page so that your customer can choose between a **B2B** or **B2C**.
 
-The following image shows the switch on the checkout page which provides the customer the ability to choose between **B2C** or **B2B**:
+The following image shows the switch on the checkout page which provides the customer the ability to choose between **Business checkout** or a **Private checkout**:
 
 ![Switch between B2C and B2B](images/b2c-or-b2b.png)
 
