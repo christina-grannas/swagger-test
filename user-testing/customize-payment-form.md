@@ -79,19 +79,22 @@ B2B customers can use the same payment methods as B2C customers except **install
 
 ## Configure Easy Checkout to handle B2B and B2C customers
 
-By **default**, Easy Checkout will assume that your customer is a **private customer**. 
+By default, Easy Checkout will assume that your customer is a **private customer**. 
 If you want to provide support for business customers on your site, you need to specify
 this using the [Payment API](payment-api.md) when creating the **payment session object** 
 from the **backend** of your site. 
 
-
 There are three ways you can configure customer type:
 
-- B2C only
-- B2B only
-- B2C and B2B
+- **B2C** - only allow private customers
+- **B2B** - only allow business customers
+- **B2C** and **B2B** - a switch is added to the checkout page so that your customer can choose between a **Business checkout** or a **Private checkout**.
 
-You can also specify which type that should be loaded by default when presenting the payment form.
+The following image shows the switch on the checkout page which provides the customer the ability to choose between **B2C** or **B2B**:
+
+![Switch between B2C and B2B](images/b2c-or-b2b.png)
+
+You can also specify which type that should be loaded by **default** when presenting the payment form.
 
 A B2B customer is separated from a B2C customer, so that consumers can separate their private and business Easy profiles. In practice this means that there is a B2B selector present in the checkout when a merchant has enabled both consumer types. The information stored on a private consumer will not be present for a Business consumer.
 
@@ -101,7 +104,6 @@ A B2B customer is separated from a B2C customer, so that consumers can separate 
         "default": "B2C"
     }  
 ```
-
 
 In order to enable B2B for 
 Merchants need to enable B2B for it to display in the checkout on their sites. For modules and partner integrations that have built-in support for B2B they can easily do this in their portals. 
