@@ -86,6 +86,37 @@ If you want to provide support for business customers on your site, you need to 
 this using the [Payment API](payment-api.md) when creating the **payment session object** 
 from the **backend** of your site. 
 
+
+{
+  
+  "checkout": {
+      "integrationType": "EmbeddedCheckout",
+      "url": "http://andrist.local/checkout.html",
+      "termsUrl": "https://andrist.local/terms.html",
+      "consumerType": {
+        "supportedTypes": [ "B2B", "B2C" ],
+        "default": "B2B"
+      }
+  },
+  "order": {
+      "items": [
+          {
+              "reference": "42",
+              "name": "Demo product",
+              "quantity": 2,
+              "unit": "hours",
+              "unitPrice": 80000,
+              "grossTotalAmount": 160000,
+              "netTotalAmount": 160000
+          }
+      ],
+      "amount": 160000,
+      "currency": "SEK",
+      "reference": "Demo Order"
+  },
+}
+
+
 There are three ways you can configure customer type:
 
 - **B2C** - only allow private customers
