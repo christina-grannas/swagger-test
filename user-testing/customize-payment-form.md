@@ -21,7 +21,7 @@ You can change the **language** of the checkout page by changing the
 The style of the checkout page can be customized which makes it possible have the checkout page match the style of your site.
 
 You have two options when it comes to styling:
-- Use the [Checkout styler]](https://portal.dibspayment.eu/account/checkout-styler) in Easy portal (recommended)
+- Use the [Checkout styler](https://portal.dibspayment.eu/account/checkout-styler) in Easy portal (recommended)
 - Use the [Checkout JS API](https://example.com/api) if you are using embedded checkout page
 
 ### Checkout styler
