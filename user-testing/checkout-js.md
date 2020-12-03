@@ -314,23 +314,19 @@ You can change the style of the checkout UI by specifying, fonts, colors, button
 | Property              | Description
 |-----------------------|-----------
 | `textColor`           | Affects all text except links. Panel text can be overridden separately.
+| `primaryColor`        | Affects the pay button, default button outlines, and radio buttons
 | `linkColor`           | Color to be used for links. Links with text can be overridden separately.
-| `fontFamily`          | Any [Google font](https://fonts.google.com). String, default `"Roboto"`
 | `backgroundColor`     | Background color. Any CSS color.
+| `fontFamily`          | Any [Google font](https://fonts.google.com). String, default `"Roboto"`
 | `placeholderColor`    | Placeholder color. Any CSS color.
 | `outlineColor`        | Color of the outline and separation lines for panels
 | `primaryOutlineColor` | Border color for radio buttons and checkboxes
 | `panelColor`          | Panel color. Any CSS color
 | `panelTextColor`      | Text color within the panel
 | `panelLinkColor`      | Link color within the panel
-| `primaryColor`        | Affects the pay button, default button outlines, and radio buttons
 | `buttonRadius`        | Radius of the buttons. Number, default 0.
 | `buttonTextColor`     | Text color for all buttons. Any CSS color.
 | `buttonFontWeight`    | [Font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) for buttons. Number (for example `500`) or string (for example `"bold"`)
 | `buttonFontStyle`     | [Font style](https://developer.mozilla.org/en-US/docs/Web/CSS/font-style) such as `"italic"` and `"oblique"`. <br>String, default `"normal"`
 | `buttonTextTransform` | [Text transform](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform). String, default `"none"`.
-| `footerBackgroundColor` | Background color of the footer
-| `footerOutlineColor`    | Footer outline color
-| `footerTextColor`       | Text color for footer
-| `useLightIcons`         | Use light icons for dark background. Boolean, default `false`.
-| `useLightFooterIcons`   | Use light icons in footer for dark background. Boolean, default `false`
+| `useLightIcons`       | Use light icons for dark background. Boolean, default `false`.
