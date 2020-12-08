@@ -1,0 +1,466 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Payment API V1",
+    "description": "Version 1 of Payment API v1",
+    "version": "v1"
+  },
+  "security": [
+    {
+      "secretAPIKey": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://payment-api-dev-live.easy.paas-ext-test.bbsas.no:61000"
+    },
+    {
+      "url": "https://payment-api-dev-test.easy.paas-ext-test.bbsas.no:61000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Payments",
+      "description": "Each payment session is represented by a payment object. A payment session is unique per customer order."
+    },
+    {
+      "name": "Subscriptions",
+      "description": "Charge your customer on a regular basis"
+    }
+  ],
+  "paths": {
+    "/v1/payments": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "createPayment",
+        "summary": "Creates a new payment object",
+        "description": "Initializes a new payment object which is the object used throughout the checkout flow for a particular customer and order. Creating a payment object is the first step when you intend to accept a payment from your customer. Typically you provide the following information:\n- The **order details** including order items, total amount, and currency\n- **Checkout page settings** which specifies what type of integration you want: a checkout page **embedded** on your site or a pre-built checkout page **hosted** by Nets. You can also specify data about your customer to have the form on the checkout page pre-populated.\n\nOptionally, you can also provide information regarding:\n- **Notifications** if you want to be notified through **webhooks** when the status of the payment changes\n- What **payment methods** you want to offer your customers\n\nOn success, this method returns a <code>paymentId</code> which can be used in subsequent requests to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to when using a hosted pre-built checkout page. ",
+        "parameters": [
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Optional tag for identifying commerce platform or CMS",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody"
+              },
+              "examples": {
+                "EmbeddedCheckoutPage": {
+                  "summary": "Create embedded checkout page",
+                  "value": {
+                    "order": {
+                      "items": [
+                        {
+                          "reference": "Sneaky",
+                          "name": "Sneaky",
+                          "quantity": 1,
+                          "unit": "pcs",
+                          "unitPrice": 2500,
+                          "taxRate": 1000,
+                          "taxAmount": 250,
+                          "netTotalAmount": 2500,
+                          "grossTotalAmount": 2750
+                        }
+                      ],
+                      "amount": 2750,
+                      "currency": "SEK",
+                      "reference": "Nets Easyshop"
+                    },
+                    "checkout": {
+                      "termsUrl": "https://example.com/terms",
+                      "publicDevice": false,
+                      "charge": false,
+                      "integrationType": "HostedPaymentPage",
+                      "merchantHandlesConsumerData": false,
+                      "consumerType": {
+                        "supportedTypes": [
+                          "B2C",
+                          "B2B"
+                        ],
+                        "default": "B2C"
+                      },
+                      "returnUrl": "https://example.com/confirmation"
+                    },
+                    "notifications": {
+                      "webhooks": [
+                        {
+                          "eventName": "payment.created",
+                          "url": "https://example.com/api/WebhookState",
+                          "authorization": "myAuthorizationKey"
+                        },
+                        {
+                          "eventName": "payment.checkout.completed",
+                          "url": "https://example.com/api/WebhookState",
+                          "authorization": "myAuthorizationKey"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "HostedCheckout": {
+                  "summary": "Create a pre-built hosted checkout page",
+                  "value": {
+                    "order": {
+                      "items": [
+                        {
+                          "reference": "Sneaky",
+                          "name": "Sneaky",
+                          "quantity": 1,
+                          "unit": "pcs",
+                          "unitPrice": 2500,
+                          "taxRate": 1000,
+                          "taxAmount": 250,
+                          "netTotalAmount": 2500,
+                          "grossTotalAmount": 2750
+                        }
+                      ],
+                      "amount": 2750,
+                      "currency": "SEK",
+                      "reference": "Nets Easyshop"
+                    },
+                    "checkout": {
+                      "termsUrl": "https://example.com/terms",
+                      "publicDevice": false,
+                      "charge": false,
+                      "integrationType": "EmbeddedCheckout",
+                      "merchantHandlesConsumerData": false,
+                      "consumerType": {
+                        "supportedTypes": [
+                          "B2C",
+                          "B2B"
+                        ],
+                        "default": "B2C"
+                      },
+                      "url": "https://example.com/checkout"
+                    },
+                    "notifications": {
+                      "webhooks": [
+                        {
+                          "eventName": "payment.created",
+                          "url": "https://example.com/api/WebhookState",
+                          "authorization": "myAuthorizationKey"
+                        },
+                        {
+                          "eventName": "payment.checkout.completed",
+                          "url": "https://example.com/api/WebhookState",
+                          "authorization": "myAuthorizationKey"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          }
+
+          
+        }
+      }
+    },
+    "/v1/payments/{paymentId}/referenceinformation": {
+      "put": {
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "putReferenceInformation",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "CommercePlatformTag",
+            "in": "header",
+            "description": "Commerce Platform Tag",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "externalReference",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "MerchantNumber",
+            "in": "header",
+            "description": "Merchant number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "secretAPIKey": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "Dibs.PaymentApi.Contracts.V1.OrderItem": {
+        "required": [
+          "name",
+          "netTotalAmount",
+          "quantity",
+          "reference"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "netTotalAmount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.Order": {
+        "required": [
+          "amount",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderItem"
+            },
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Infrastructure.Common.WebApi.BadRequestViewModel": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatePaymentBody": {
+        "required": [
+          "checkout",
+          "order"
+        ],
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Order"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.CreatePayment.CreatedPaymentViewModel": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostedPaymentPageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.Requests.UpdateReferenceInformationBody": {
+        "type": "object",
+        "properties": {
+          "checkoutUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.OrderDetails": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "reference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ThePayment": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderDetails": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.OrderDetails"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "payment": {
+            "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.Responses.PaymentResponse_ThePayment"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Dibs.PaymentApi.Contracts.V1.Responses.SubscriptionViewModel": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
