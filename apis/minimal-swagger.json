@@ -12,9 +12,11 @@
   ],
   "servers": [
     {
+      "description": "Test",
       "url": "https://payment-api-dev-live.easy.paas-ext-test.bbsas.no:61000"
     },
     {
+      "description": "Live",
       "url": "https://payment-api-dev-test.easy.paas-ext-test.bbsas.no:61000"
     }
   ],
@@ -34,11 +36,13 @@
         "tags": [
           "Payments"
         ],
+        "security": [
+        ],
         "operationId": "createPayment",
         "summary": "Creates a new payment object",
         "description": "Initializes a new payment object which is the object used throughout the checkout flow for a particular customer and order. Creating a payment object is the first step when you intend to accept a payment from your customer. Typically you provide the following information:\n- The **order details** including order items, total amount, and currency\n- **Checkout page settings** which specifies what type of integration you want: a checkout page **embedded** on your site or a pre-built checkout page **hosted** by Nets. You can also specify data about your customer to have the form on the checkout page pre-populated.\n\nOptionally, you can also provide information regarding:\n- **Notifications** if you want to be notified through **webhooks** when the status of the payment changes\n- What **payment methods** you want to offer your customers\n\nOn success, this method returns a <code>paymentId</code> which can be used in subsequent requests to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to when using a hosted pre-built checkout page. ",
         "parameters": [
-          {
+          { // Add ref example of components.headers
             "name": "CommercePlatformTag",
             "in": "header",
             "description": "Optional tag for identifying commerce platform or CMS",
@@ -57,7 +61,7 @@
               },
               "examples": {
                 "EmbeddedCheckoutPage": {
-                  "summary": "Create embedded checkout page",
+                  "summary": "Embedded",
                   "value": {
                     "order": {
                       "items": [
