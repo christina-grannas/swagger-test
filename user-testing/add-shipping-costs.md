@@ -1,9 +1,9 @@
-# Add shipping cost
+# Add shipping costs
 
-It's possible to add shipping cost to your customer's order. Shipping costs are usually affected at the end of the payment flow when your customer's address is specified. To handle this, your site need to interact with the Easy Checkout during the payment session.
+It's possible to add shipping cost to your customer's order. Shipping costs are usually affected at the end of the payment flow when your customer's address is specified. To handle this, your site need to interact with the Easy Checkout during ongoing the payment session.
 
-Shipping costs are added to the order as a regular item in the `order` object. However, 
-To enable destination based shipping cost, merchant must set the shipping cost flag when creating the payment (checkout.shipping.merchantHandlesShippingCost):
+Shipping costs are added to the order as a regular item in the `order` object passed to the Payment API. However, 
+to enable destination based shipping cost, you must set the flag `merchantHandlesShippingCost` to `true` when creating the payment object using the Payment API. In this way, Easy Checkout will 
 
 
 
@@ -35,7 +35,103 @@ A typical scenario where you want to update an existing payment session is when 
 
 
 
-To update the shipping cost we need to `PUT` a new `items` object to the path `/v1/payments/{paymentId}/orderitems`. The following code shows how calculate a new random shipping cost and update the shipping cost item in the order:
+
+
+Whenever
+
+
+
+
+
+## Step 1: Set merchantHandlesShippingCost (backend)
+
+To be able to handle destination based shipping costs, you need to pass the flag `merchantHandlesShippingCost` when creating the payment object using the method `POST /vi/payments` of the Payment API.
+
+When the backend of your site creates the creating the payment object 
+merchantHandlesShippingCost
+
+Add the flag `merchantHandlesShippingCost` when creating the payment object using the method `POST /vi/payments` of the Payment API. The following JSON object serves as an example:
+
+```json
+{
+  "order": {
+      "items": [
+          {
+              "reference": "42",
+              "name": "Demo product",
+              "quantity": 2,
+              "unit": "hours",
+              "unitPrice": 80000,
+              "grossTotalAmount": 160000,
+              "netTotalAmount": 160000
+          }
+      ],
+      "amount": 160000,
+      "currency": "SEK",
+      "reference": "Demo Order"
+  },
+  "checkout": {
+      "integrationType": "EmbeddedCheckout",
+      "url": "https://<YOUR_SERVER>/checkout.html",
+      "termsUrl": "https://<YOUR_SERVER>/terms.html",
+      "shipping": {
+        "countries": [],
+        "merchantHandlesShippingCost": true
+      }
+  }
+}
+```
+
+By setting `merchantHandlesShippingCost` to `true`, Easy Checkout will not proceed with a payment unless a shipping cost has been added to the order.
+
+## Step 2: Register an `address-changed` listener (frontend)
+
+Add a listener on the `checkout` object so that you get informed whenever your customer is updating the address fields on the payment form:
+
+```javascript
+// ...
+checkout.on('address-changed', function (address) {
+  if (address) {
+    checkout.freezeCheckout();
+    var request = new XMLHttpRequest();
+    request.open("POST", 'update-shipping-cost.php');
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    const body = {
+      paymentId: paymentId,
+      postalCode: address.postalCode,
+      countryCode: address.countryCode
+    };
+    request.onload = function () {
+      console.log(this.response);
+      checkout.thawCheckout();
+    }
+    request.onerror = function () { console.error('connection error'); }
+    request.send(JSON.stringify(body));
+  }
+});
+  // ...
+
+```
+Some things to note in the event handler:
+- The event handler is being called whenever the customer updates the address
+- The new address is passed as an argument to the event handler
+- We freeze the checkout by calling `freezeCheckout()` 
+- We inform our backend that the shipping cost should be recalculated and updated 
+- When the backend has updated the order with a new shipping cost we resume the checkout by calling `thawCheckout()`.
+
+
+
+
+
+
+Step 3: Recalculate shipping cost and update order (backend)
+
+In this step we know that the address has been updated by the customer and the frontend is waiting for the backend to calculate a new shipping cost and updating the payment object we created in step 1.
+
+1. Recalculate the shipping cost
+2. Update the `items` object in the payment object by using the method `PUT /v1/payments/{paymentId}/orderitems` of the Payment API.
+
+The following code shows how calculate a new random shipping cost and update the shipping cost item in the order:
 
 ```php
 <?php
@@ -72,9 +168,7 @@ $ch = curl_init('https://test.api.dibspayment.eu/v1/payments/' . $paymentId . '/
 
 ?>
 ```
-
-We are usinga hard coded JSON template 
-The JSON object that we will use for this example looks like this:
+The code assumes that we are using the following hard-coded JSON file:
 
 ```json
 {
@@ -108,60 +202,5 @@ The JSON object that we will use for this example looks like this:
 }
 ```
 
+By adding a new order item which corresponds to the shipping cost, and, by setting the flag `costSpecified` to `true`, Easy Checkout will allow the payment to proceed once the checkout is resumed by our frontend (see `thawCheckout()` in the previous step).
 
-Whenever
-
-
-
-
-
-## Step 1: Set the merchantHandlesShippingCost flag in the "create payment" request
-
-To be able to handle shipping costs, you need to pass the flag `merchantHandlesShippingCost` when creating the payment object using the method `POST /vi/payments` using the Payment API.
-
-
-When the backend of your site creates the creating the payment object 
-merchantHandlesShippingCost
-
-```json
-{
-  "order": {
-      "items": [
-          {
-              "reference": "42",
-              "name": "Demo product",
-              "quantity": 2,
-              "unit": "hours",
-              "unitPrice": 80000,
-              "grossTotalAmount": 160000,
-              "netTotalAmount": 160000
-          }
-      ],
-      "amount": 160000,
-      "currency": "SEK",
-      "reference": "Demo Order"
-  },
-  "checkout": {
-      "integrationType": "EmbeddedCheckout",
-      "url": "https://<YOUR_SERVER>/checkout.html",
-      "termsUrl": "https://<YOUR_SERVER>/terms.html",
-      "shipping": {
-        "countries": [],
-        "merchantHandlesShippingCost": true
-      }
-  }
-}
-```
-
-In the JSON object we specify that we want to add shipping cost to 
-our order by setting `merchantHandlesShippingCost` to `true`. This will have the effect that Easy Checkout will not proceed with a payment unless a shipping cost has been added to the order.
-
-Step 2: (frontend)
-
-2. On the front-end (javascript), listen to the new event "address-changed"
-
-3. When the address has changed (for example when the consumer changes the delivery address, or when the consumer was initially identified in the checkout):
- 3.1 Recalculate the shipping cost
- 3.2 Update the cart using the new update cart functionality in the payment api (see the "update cart" documentation above), remember to set the shipping.costSpecified flag when updating the cart 
-
-4. If the cart has been updated with the shipping cost (pt 3.2 above), the consumer can continue by clicking pay.
