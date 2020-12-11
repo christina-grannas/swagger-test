@@ -8,7 +8,7 @@ This guide is for developers who want to add online payments to their website us
 
 Before you start you need:
 
-1. An [Easy Portal account](https://portal.dibspayment.eu). Need [help](create-account.md)?
+1. An [Easy Portal account](https://portal.dibspayment.eu). See the guide [create account](create-account.md).
 2. Your [Integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. Need [help](access-your-integration-keys.md)?
 3. A running web server which can host static HTML pages and execute server side scripts. We will use PHP in this guide.
 4. Basic skills in PHP, HTML, JavaScript, and JSON (JavaScript Object Notation)
@@ -17,9 +17,17 @@ Before you start you need:
 
 Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). [Payment methods](payment-methods.md) supported by Easy Checkout include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
 
-The backend of your website communicates with Nets Easy Checkout over RESTful APIs using your Secret API key. The frontend of your website uses Checkout.js provided by Nets to handle the API integration with Easy Checkout. The frontend of your site uses the Merchant key to identify your webshop when communicating with Nets.
+The **backend** of your website communicates with **Nets Easy Checkout** over RESTful APIs using your **Secret API key**. The **frontend** of your website uses **Checkout JS API** provided by Nets to handle the API integration with Easy Checkout. The **frontend** of your site uses the **Checkout key** to identify your webshop when communicating with Nets.
 
-Nets Easy, also provides a ready-made checkout page that can be customized and embedded into your webshop.
+
+
+---
+**Important**
+
+The **Secret API key** must never be exposed to the public and should only be passed over encrypted server-to-server communication.
+
+In contrast, the **Checkout key** is only an identifer and can be exposed to the frontend of your site.
+---
 
 ## What you are building
 
@@ -37,10 +45,9 @@ In this guide, you will embed a checkout page to your webshop in six steps:
 The checkout is initiated from the client. We will start implementing the checkout flow from the frontend by adding:
 
 - A `<button>` that will allow the customer to initiate the checkout
-- An JavaScript event handler attached to the button
+- An JavaScript **event handler** attached to the button
 
-Create a file named `cart.html`. The content below will serve as a minimal starting point for the
-payment flow:
+Create a file named `cart.html`. The content below will serve as a minimal starting point for the payment flow:
 
 ```html
 <!DOCTYPE html>
@@ -53,8 +60,25 @@ payment flow:
   </head>
   <body>
     <h1>Shopping Cart</h1>
-    <button id="checkout-button">Proceed to Checkout</button>
-    <script src="cart-helper.js"></script>
+    <button id="checkout-button">Proceed to  Checkout</button>
+    <script type="text/javascript">
+    var button = document.getElementById('checkout-button');
+    button.addEventListener('click', function () {
+      var request = new XMLHttpRequest();
+      request.open('GET', 'create-payment.php', true);
+      request.onload = function () {
+        const data = JSON.parse(this.response);     // If parse error, check output 
+        if (!data.paymentId) {                      // from create-payment.php
+          console.error('Error: Check output from create-payment.php');
+          return;
+        }
+        console.log(this.response);
+        window.location = 'checkout.html?paymentId=' + data.paymentId;
+      }
+      request.onerror = function () { console.error('connection error'); }
+      request.send();
+    });
+   </script>
   </body>
 </html>
 ```
@@ -89,50 +113,41 @@ document.getElementById('checkout-button').addEventListener('click', function ()
 
 ```
 
-When clicking the checkout button, this event handler will send an asynchronous request over HTTPS to the backend of your site. If you try clicking the Checkout button now, you will receive a HTTP 404 error, because the script `create-payment.php` is not found yet. (You can verify this by inspecting the JavaScript Console in your browser). 
+When clicking the checkout button, the event handler will send an asynchronous **request** over **HTTP** to the **backend** of your site. If you try clicking the checkout button now, you will receive a **HTTP 404** error since the script `create-payment.php` is not found (yet). You can verify this by inspecting the JavaScript Console in your browser.
 
 Let's fix this 404 error and turn to the backend and implement the `create-payment.php` script.
 
-<!-- which in turn will create a new payment object. Let's turn to the backend and implement the `create-payment.php` script.-->
-
 ## Step 2: Create a payment object (backend)
 
-Each payment session is represented by a payment object. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site. Creating the payment object is the responsibility of the script `create-payment.php`.
+Each **payment session** is represented by a **payment object**. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site. Creating the payment object is the responsibility of the script `create-payment.php`.
 
 Create a file called `create-payment.php` and add the following code to it:
 
 ```php
 <?php
-  /*
-    create-payment.php
-  */
 
-  function get_request_body() {
-    // Generate your JSON request body here...
-    return '<YOUR_JSON_OBJECT_HERE>'; 
-  }
+$payload = file_get_contents('payload.json');
+assert(json_decode($payload) && json_last_error() == JSON_ERROR_NONE);
 
-  $payload = get_request_body(); // Returns a JSON string
-   $ch = curl_init('https://test.api.dibspayment.eu/v1/payments');
-   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-   curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-       'Content-Type: application/json',
-       'Accept: application/json',
-       'Authorization: <YOUR_SECRET_API_KEY>') // Important: Replace with your key
-   );
-   $result = curl_exec($ch);
-   echo($result);        // Forward result back to frontend
+$ch = curl_init('https://test.api.dibspayment.eu/v1/payments');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                         
+        'Content-Type: application/json',
+        'Accept: application/json',
+        'Authorization: <YOUR_SECRET_API_KEY>'));                                                
+$result = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+echo($result);
+
 ?>
 ```
-Replace the text `<YOUR_SECRET_API_KEY>` with your [Secret API key](https://portal.dibspayment.eu/integration).
+Replace the text `` with your [Secret API key](https://portal.dibspayment.eu/integration).
 
-In this example, the function `get_request_body()` is just an empty placeholder.
-This is the place where you should dynamically create a JSON object based on
-your customers' order items. For now, you can just add a static JSON string. 
-Below is an example that can be used for testing:
-
+In this example we simply read a hardcoded JSON object from the file `payload.json` shown below. 
+Normally, this would be the place where you dynamically create a JSON object based on your customer's order items.
+For now, you can just add a the static JSON file `payload.json` that can be used for testing:
 
 ```json
 {
@@ -179,9 +194,19 @@ with the URL to the checkout page on your site, or the page will fail to load la
 ---
 
 
-This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides Updating order, Add shipping cost, and the API reference for more info.
+This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides Update order, Add shipping cost, and the API reference for more info.
 
-You should now be able to click the "Proceed to Checkout" button and thereafter see the `paymentId` printed to the JavaScript console in your web browser. Here an example of how the console should look after clicking the button:
+You should now be able to click the "Proceed to Checkout" button and thereafter see the `paymentId` printed to the JavaScript console in your web browser. 
+
+
+
+---
+**Troubleshooting**
+
+If the paymentId is not printed to the JavaScript console, you can also try loading 
+  `create-payment.php` directly from your web browser. In that way, you can read the error
+  messages outputted from the PHP script more easily.
+---
 
 Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the checkout page with the payment view.
 
@@ -202,17 +227,16 @@ It's time to create the HTML page that will embed the checkout `iframe`. Add the
      <!-- checkout iframe will be embedded here -->
    </div>
    <script src="https://test.checkout.dibspayment.eu/v1/checkout.js?v=1"></script>
-   <script src="checkout-helper.js"></script>
+   <script src="script.js"></script>
  </body>
 </html>
 ```
 
+The HTML code contains a few things to pay attention to:
 
-The container element `<div id="checkout-container-div">` is the place where we  will embed the checkout `iframe` eventually. Two JavaScripts are embedded: `checkout.js` from Nets and our own `checkout-helper.js` which we will implement in the next step.
-
-Two JavaScripts are embedded:
-- `checkout.js` provided by Nets. Since we are using the [test environment](test-environment.md) in this guide, you should load the JavaScript from `test.checkout.dibspayment.eu`.
-- `checkout-helper.js`, our own JavaScript helper which we will implement in the next step.
+- The container element `<div id="checkout-container-div">` is the place where we eventually will embed the checkout `iframe`. 
+- Two JavaScripts are loaded: `checkout.js` from **Nets** and our own `script.js` which we will implement in the next step.
+- Since we are using the [test environment](test-environment.md) in this guide, `checkout.js` is loaded from `test.checkout.dibspayment.eu`. When using the live environment, you should instead use `checkout.dibspayment.eu`.
 
 The `checkout.html` page should always be requested with a URL parameter called `paymentId` since the `paymentId` is needed in order to identify the current payment session when communicating with Nets. 
 
