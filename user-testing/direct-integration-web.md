@@ -206,6 +206,7 @@ You should now be able to click the "Proceed to Checkout" button and thereafter 
 If the paymentId is not printed to the JavaScript console, you can also try loading 
   `create-payment.php` directly from your web browser. In that way, you can read the error
   messages outputted from the PHP script more easily.
+  
 ---
 
 Now when the backend is implemented it's time to go back to the frontend code and use the `paymentId` to create the checkout page with the payment view.

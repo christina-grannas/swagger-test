@@ -1,30 +1,31 @@
 # Add shipping costs
 
-It's possible to add shipping cost to your customer's order. Shipping costs are usually affected at the end of the payment flow when your customer's address is specified. To handle this, your site need to interact with the Easy Checkout during ongoing the payment session.
+This guide is for developers who want to add shipping costs to their Easy Checkout page.
 
-Shipping costs are added to the order as a regular item in the `order` object passed to the Payment API. However, 
-to enable destination based shipping cost, you must set the flag `merchantHandlesShippingCost` to `true` when creating the payment object using the Payment API. In this way, Easy Checkout will 
+## Before you start
+
+This guide assumes that you already have an Easy Portal account and have  integrated Easy Checkout on your website. 
 
 
+## Overview
+
+It's possible to add shipping cost to your customer's order. Shipping costs are usually affected at the end of the payment flow when your customer's address is specified. To handle this scenario, your site need to interact with the Easy Checkout during the ongoing the payment session.
+
+**Shipping costs** are added to the order as a **regular order item** in the [`order`](http://www.example.com/payment-api#order) object passed to the Payment API. In addition, 
+to enable destination based shipping cost, you must set the flag `merchantHandlesShippingCost` to `true` when creating the payment object using the Payment API. In this way, Easy Checkout will not proceed the payment unless a shipping cost has been added to the order by adding the flag `costSpecified` when updating the order.
 
 ![Update shipping cost](images/update-shipping-cost.png)
 
-
-
-As a part of the shipping cost feature, we have implemented generic cart-updates. 
+<!--
 
 This guide will show you how to update the order items in an ongoing payment session using the Payment API. 
 
 
 This method can be used to add or remove items to the cart, change the amount, quantity, etc on existing items or add or update shipping cost. Please note that shipping cost is an order line like any other order line. If the merchant handles shipping cost, the update cart must be invoked with shipping.costSpecified as shown in the example body:
+-->
 
 
-
-
-
-## Before you start
-This guide assumes that you already have a 
-
+<!--
 Merchant can update the order items in a cart by utilizing the new api-method: PUT "v1/payments/{paymentId}/orderitems". 
 
 
@@ -33,19 +34,14 @@ This method can be used to add or remove items to the cart, change the amount, q
 
 A typical scenario where you want to update an existing payment session is when the customer changes the quantity of an item. 
 
+-->
 
-
-
-
-Whenever
-
-
-
+The following three steps guides you through the process of **adding** and **updating shipping cost** based on the **destination address** provided by your customer.
 
 
 ## Step 1: Set merchantHandlesShippingCost (backend)
 
-To be able to handle destination based shipping costs, you need to pass the flag `merchantHandlesShippingCost` when creating the payment object using the method `POST /vi/payments` of the Payment API.
+To be able to handle destination based shipping costs, you need to pass the flag `merchantHandlesShippingCost` when creating the payment object using the method `POST /v1/payments` of the Payment API.
 
 When the backend of your site creates the creating the payment object 
 merchantHandlesShippingCost
@@ -92,10 +88,11 @@ Add a listener on the `checkout` object so that you get informed whenever your c
 // ...
 checkout.on('address-changed', function (address) {
   if (address) {
-    checkout.freezeCheckout();
+    checkout.freezeCheckout();                         // Pause
     var request = new XMLHttpRequest();
     request.open("POST", 'update-shipping-cost.php');
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader("Content-Type", 
+                             "application/json;charset=UTF-8");
     const body = {
       paymentId: paymentId,
       postalCode: address.postalCode,
@@ -103,13 +100,15 @@ checkout.on('address-changed', function (address) {
     };
     request.onload = function () {
       console.log(this.response);
-      checkout.thawCheckout();
+      checkout.thawCheckout();                        // Resume
     }
-    request.onerror = function () { console.error('connection error'); }
+    request.onerror = function () { 
+       console.error('connection error'); 
+    }
     request.send(JSON.stringify(body));
   }
 });
-  // ...
+// ...
 
 ```
 Some things to note in the event handler:
@@ -126,7 +125,7 @@ Some things to note in the event handler:
 
 Step 3: Recalculate shipping cost and update order (backend)
 
-In this step we know that the address has been updated by the customer and the frontend is waiting for the backend to calculate a new shipping cost and updating the payment object we created in step 1.
+In this step we know that the address has been updated by the customer and the frontend is waiting for the backend to calculate a new shipping cost and updating the payment object we created in step 1. 
 
 1. Recalculate the shipping cost
 2. Update the `items` object in the payment object by using the method `PUT /v1/payments/{paymentId}/orderitems` of the Payment API.
@@ -204,3 +203,7 @@ The code assumes that we are using the following hard-coded JSON file:
 
 By adding a new order item which corresponds to the shipping cost, and, by setting the flag `costSpecified` to `true`, Easy Checkout will allow the payment to proceed once the checkout is resumed by our frontend (see `thawCheckout()` in the previous step).
 
+Step 4: Test your page
+
+-   
+- 
