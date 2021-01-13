@@ -9,7 +9,7 @@ This guide is for developers who want to add online payments to their website us
 Before you start you need:
 
 1. An [Easy Portal account](https://portal.dibspayment.eu). See the guide [create account](create-account.md).
-2. Your [Integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. Need [help](access-your-integration-keys.md)?
+2. Your [Integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. [Need help](access-your-integration-keys.md)?
 3. A running web server which can host static HTML pages and execute server side scripts. We will use PHP in this guide.
 4. Basic skills in PHP, HTML, JavaScript, and JSON (JavaScript Object Notation)
 
@@ -17,20 +17,23 @@ Before you start you need:
 
 Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). [Payment methods](payment-methods.md) supported by Easy Checkout include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
 
-The **backend** of your website communicates with **Nets Easy Checkout** over RESTful APIs using your **Secret API key**. The **frontend** of your website uses **Checkout JS API** provided by Nets to handle the API integration with Easy Checkout. The **frontend** of your site uses the **Checkout key** to identify your webshop when communicating with Nets.
+The **backend** of your website communicates with **Nets Easy Checkout** over REST APIs using your **Secret API Key**. The **frontend** of your website uses **Checkout JS API** provided by Nets to handle the API integration with Easy Checkout. The **frontend** of your site uses the **Checkout Key** to identify your webshop when communicating with Nets.
 
 
 
 ---
 **Important**
 
-The **Secret API key** must never be exposed to the public and should only be passed over encrypted server-to-server communication.
+The **Secret API key** must never be exposed to the public and should only be passed over encrypted server-to-server communication (HTTPS).
 
 In contrast, the **Checkout key** is only an identifer and can be exposed to the frontend of your site.
+
 ---
 
 ## What you are building
 
+
+<!--
 In this guide, you will embed a checkout page to your webshop in six steps:
 
 1. Initiate the checkout from your site (frontend)
@@ -39,12 +42,14 @@ In this guide, you will embed a checkout page to your webshop in six steps:
 4. Embed the checkout iframe using [Checkout.js](checkout-js.md) (frontend)
 5. Add a "payment completed" page (frontend)
 6. Test your checkout page
+-->
+
 
 ## Step 1: Initiate the checkout from your site (frontend)
 
 The checkout is initiated from the client. We will start implementing the checkout flow from the frontend by adding:
 
-- A `<button>` that will allow the customer to initiate the checkout
+- A **button** that will allow the customer to initiate the checkout
 - An JavaScript **event handler** attached to the button
 
 Create a file named `cart.html`. The content below will serve as a minimal starting point for the payment flow:
@@ -83,14 +88,12 @@ Create a file named `cart.html`. The content below will serve as a minimal start
 </html>
 ```
 
-The page contains a checkout button and embeds the JavaScript `cart-helper.js` which we will implement next.
+The page contains a checkout button and embeds our custom JavaScript which we will implement next.
 
-Create the file `cart-helper.js` and add the following event listener for the checkout button:
+Add the following event listener to the checkout button:
 
 ```javascript
-/*
-  cart-helper.js
-*/ 
+/* script.js */ 
 
 document.getElementById('checkout-button').addEventListener('click', function () {
   var request = new XMLHttpRequest();
@@ -113,15 +116,15 @@ document.getElementById('checkout-button').addEventListener('click', function ()
 
 ```
 
-When clicking the checkout button, the event handler will send an asynchronous **request** over **HTTP** to the **backend** of your site. If you try clicking the checkout button now, you will receive a **HTTP 404** error since the script `create-payment.php` is not found (yet). You can verify this by inspecting the JavaScript Console in your browser.
+When clicking the checkout button, the event handler will send an asynchronous **request** over **HTTP(S)** to the **backend** of your site. If you try clicking the checkout button now, you will receive a **HTTP 404** error since we haven't implemented the backend yet. You can verify this by inspecting the JavaScript Console in your browser.
 
 Let's fix this 404 error and turn to the backend and implement the `create-payment.php` script.
 
 ## Step 2: Create a payment object (backend)
 
-Each **payment session** is represented by a **payment object**. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site. Creating the payment object is the responsibility of the script `create-payment.php`.
+Each **payment session** is represented by a **payment object**. In order to start a checkout flow for your customer, you first need to create a payment object and retrieve the `paymentId` referencing that object. Creating a payment object requires your [Secret API key](access-your-integration-keys.md). Therefore, this request has to be initiated from the backend of your site. 
 
-Create a file called `create-payment.php` and add the following code to it:
+The following backend script will create a new payment object and return the `paymentId` to the frontend:
 
 ```php
 <?php
@@ -204,8 +207,8 @@ You should now be able to click the "Proceed to Checkout" button and thereafter 
 **Troubleshooting**
 
 If the paymentId is not printed to the JavaScript console, you can also try loading 
-  `create-payment.php` directly from your web browser. In that way, you can read the error
-  messages outputted from the PHP script more easily.
+  the backend script directly from your web browser. In that way, you can read the error
+  messages outputted from the script more easily.
   
 ---
 
@@ -213,9 +216,9 @@ Now when the backend is implemented it's time to go back to the frontend code an
 
 ## Step 3: Add a checkout page (frontend)
 
-It's time to create the HTML page that will embed the checkout `iframe`. Add the following HTML code into a new file called `checkout.html`:
+It's time to create the HTML page that will embed the checkout `iframe`. Add the following HTML code into a new file:
 
-```javascript
+```html
 <!DOCTYPE html>
 <!--
   checkout.html
