@@ -2,7 +2,9 @@
 
 Whenever your customer buy something on your site, a new **payment** is created in Easy Checkout. Payments can be managed directly in [Easy Portal](https://portal.dibspayment.eu/payments) or programmatically through the [Easy APIs](api-overview.md). 
 
-New payments require your action. When you ship the order, make sure to **charge** the payment in order to receive the funds from Nets. If the order is canceled by the customer, make sure to **cancel** the payment in order to release the reservation on the customer's payment card. 
+New payments require your action: 
+- When you ship the order, make sure to **charge** the payment in order to receive the funds from Nets. 
+- If the order is canceled by the customer, make sure to **cancel** the payment in order to release the reservation on the customer's payment card. 
 
 ## Charge payments
  
@@ -10,7 +12,7 @@ Charge a payment on the same day as you ship the matching order.
 
 Card payments need to be **charged within 30 days**, or else the payment will be canceled automatically. It will then require a new order from your customer if you wish to charge after the 30 days. 
  
-A payment can be fully charged (default) or partially charged by choosing **Edit and charge**.
+A payment can be fully charged (default) or partially charged.
 
 ### Full charge
 
@@ -80,8 +82,7 @@ If a customer cancels an order before the goods are shipped, you have the possib
 
 To cancel one payment, simply select the payment in the payment overview and choose **Cancel** in the **QUICK ACTIONS** drop-down menu. To cancel several payments at once, select all desired payments and choose **CANCEL**.
  
-  
-Please note that it is not possible to change the status of a canceled payment.
+Please note that it is not possible to change the status of a payment once it has been canceled.
  
  
 
@@ -94,7 +95,9 @@ In order to refund the total amount you simply choose Refund in the Quick action
 ---
 **Important!**
 
-Please note! If the payment has been Partially Charged and you want to refund the full payment, you need to make one refund per charge. To find all charges that are related to the same original payment you choose View details on any line related to the order in the payments lists.
+If the payment has been partially charged and you want to refund the full payment, you need to make one refund per charge. The complete list of all charges
+related to the same original payment can be found by [viewing the payment details](#view-payment-details).
+To find all charges that are related to the same original payment you choose View details on any line related to the order in the payments lists.
 
 ---
  
@@ -122,7 +125,7 @@ You can find more information on how to make a deposit, including account detail
 
  
 ---
-**Important!**
+**Note**
 - It normally takes a few days before the funds are transferred to your customer's account depending on the card issuer's (normally your customer's bank) routines.
 - Your balance needs to be larger than the amount you want to refund including transaction fees. Make a deposit or charge new payments if your balance is too low. 
 
