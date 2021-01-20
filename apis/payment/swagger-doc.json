@@ -72,7 +72,7 @@
         ],
         "operationId": "Post",
         "summary": "Create payment",
-        "description": "Initializes a new payment object which is the object used throughout the checkout flow for a particular customer and order. Creating a payment object is the first step when you intend to accept a payment from your customer. Typically you provide the following information:\n- The **order details** including order items, total amount, and currency\n- **Checkout page settings** which specifies what type of integration you want: a checkout page **embedded** on your site or a pre-built checkout page **hosted** by Nets. You can also specify data about your customer to have the form on the checkout page pre-populated.\n\nOptionally, you can also provide information regarding:\n- **Notifications** if you want to be notified through **webhooks** when the status of the payment changes\n- What **payment methods** you want to offer your customers\n\nOn success, this method returns a <code>paymentId</code> which can be used in subsequent requests to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to when using a hosted pre-built checkout page. ",
+        "description": "Initializes a new payment object which is the object used throughout the checkout flow for a particular customer and order. Creating a payment object is the first step when you intend to accept a payment from your customer. Typically you provide the following information:\n- The **order details** including order items, total amount, and currency\n- **Checkout page settings** which specifies what type of integration you want: a checkout page **embedded** on your site or a pre-built checkout page **hosted** by Nets. You can also specify data about your customer to have the form on the checkout page pre-populated.\n\nOptionally, you can also provide information regarding:\n- **Notifications** if you want to be notified through **webhooks** when the status of the payment changes\n- What **payment methods** you want to offer your customers\n\nOn success, this method returns a <code>paymentId</code> which can be used in subsequent requests to refer to the newly created payment object. Optionally, the response object will also contain a <code >hostedPaymentPageUrl</code> which is the URL you should redirect to if using a hosted pre-built checkout page.",
         "parameters": [
           {
             "name": "CommercePlatformTag",
@@ -252,7 +252,7 @@
         ],
         "operationId": "retrieve-payment",
         "summary": "Retrieve payment",
-        "description": "Retrieves the details of an existing payment. The `paymentId` is obtained from Nets when creating a payment object.",
+        "description": "Retrieves the details of an existing payment. The `paymentId` is obtained from Nets when [creating a payment object](#create-payment).",
         "parameters": [
           {
             "name": "paymentId",
@@ -331,7 +331,7 @@
         ],
         "operationId": "update-referenceinformation",
         "summary": "Update payment reference information",
-        "description": "Updates the specified payment with a new checkout URL and a new reference for the payment. The order of a payment object can be updated using [update order items](#update-orderitems).",
+        "description": "Updates the specified payment object with a new `reference` string and a `checkoutUrl`. \n\nIf you instead want to update the **order** of a payment object, use the [update order items endpoint](#update-order-items).",
         "parameters": [
           {
             "name": "paymentId",
@@ -412,7 +412,7 @@
         ],
         "operationId": "update-orderitems",
         "summary": "Update order",
-        "description": "Updates the order for the specified payment. This method can only be used as long as the checkout has not been completed by the customer.",
+        "description": "Updates the order for the specified payment. This endpoint makes it possible to change the order on the checkout page *after* the payment object has been created. This is typically used when managing destination-based shipping costs at the checkout.\n\nThis endpoint can only be used as long as the checkout has not yet been completed by the customer. See the [payment completed webhook](#payment-completed).",
         "parameters": [
           {
             "name": "paymentId",
@@ -484,7 +484,7 @@
           "Payments"
         ],
         "summary": "Charge payment",
-        "description": "Charges the specified payment. The order reference and the amount to be charged must be specified in the request body.",
+        "description": "Charges the specified payment. Charge a payment on the same day as you ship the matching order.A payment can be fully charged or partially charged:\n\n-  **Full charge**: Your customer will be charged the total amount of the payment. The `amount`  must be specified in the request body and is required to match the total amount of the payment.\n\n - **Partial charge**: only charge for a subset of the order items. In this case you have to provide the `amount` and the `orderItems` you want to charge in the request body.",
         "operationId": "Charge payment",
         "parameters": [
           {
@@ -587,7 +587,7 @@
           "Payments"
         ],
         "summary": "Cancel payment",
-        "description": "Cancels the specified payment. Only full cancels are allowed.",
+        "description": "Cancels the specified payment. By canceling a payment, the reserved amount of the payment will be released to the customer's payment card.\n\n Note that:\n\n- Only full cancels are allowed.\n\n- Once a payment has been charged (fully or partially), the payment cannot be canceled.\n\n- It is not possible to change the status of a payment once it has been canceled.\n\n- Nets will not charge a fee for a canceled payment.",
         "operationId": "cancel-payment",
         "parameters": [
           {
@@ -667,7 +667,7 @@
           "Payments"
         ],
         "summary": "Refund payment",
-        "description": "Refunds a previously settled transaction. The refunded amount will be transferred back to the customers account.",
+        "description": "Refunds a previously settled transaction (a charged payment). The refunded amount will be transferred back to the customer's account. The required `chargeId` is returned from the [charge payment endpoint](#charge-payment)\n\nA settled transaction can be fully or partially refunded:\n\n- Full refund requires only the `amount` to be specified in the request body.\n\n- Partial refund requires the `amount` and the `orderItems` to be refunded.",
         "operationId": "Refund",
         "parameters": [
           {
@@ -755,7 +755,7 @@
         ],
         "operationId": "InitCancelRefund",
         "summary": "Cancel pending refund",
-        "description": "Cancels a pending refund",
+        "description": "Cancels a pending refund. A refund can be in a pending state while there are not enough funds on your account to make the refund.\n\nThe `refundId` is returned when [creating a new refund](#create-refund).",
         "parameters": [
           {
             "name": "refundId",
