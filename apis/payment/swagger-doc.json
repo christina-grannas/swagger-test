@@ -22,7 +22,7 @@
     },
     {
       "name": "Subscriptions",
-      "description": "Subscriptions allows you to charge your customer on a regular basis, for example a monthly subscription on a product the customer must pay for every month. This solution makes it easy to take care of keeping your customers paying for your product."
+      "description": "Subscriptions allows you to charge your customer on a regular basis, for example a monthly subscription on a product the customer must pay for every month."
     },
     {
       "name": "Health Check",
@@ -331,7 +331,7 @@
         ],
         "operationId": "update-referenceinformation",
         "summary": "Update payment reference information",
-        "description": "Updates the specified payment object with a new `reference` string and a `checkoutUrl`. \n\nIf you instead want to update the **order** of a payment object, use the [update order items endpoint](#update-order-items).",
+        "description": "Updates the specified payment object with a new `reference` string and a `checkoutUrl`. \n\nIf you instead want to update the **order** of a payment object, use the [Update order](#update-order-items) method.",
         "parameters": [
           {
             "name": "paymentId",
@@ -820,7 +820,7 @@
           "Subscriptions"
         ],
         "summary": "Retrieve subscriptions",
-        "description": "Retrieves all subscriptions matching the specified external reference",
+        "description": "Retrieves all subscriptions matching the specified `externalReference`.",
         "parameters": [
           {
             "name": "externalReference",
@@ -894,7 +894,7 @@
           "Subscriptions"
         ],
         "summary": "Retrieve subscription",
-        "description": "Retrieves an existing subscription by a `subscriptionId`. The subscriptionId is obtained when [creating a payment object](#create-payment).",
+        "description": "Retrieves an existing subscription by a `subscriptionId`. The `subscriptionId` can be obtained from the [Retrieve payment](#get-payment) method.",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -970,7 +970,7 @@
           "Subscriptions"
         ],
         "summary": "Bulk charge subscription",
-        "description": "Charges multiple subscriptions at once. The request body must contain: a unique string that identifies this bulk charge operation and a set of subscription identifiers that are to be charged.",
+        "description": "Charges multiple subscriptions at once. The request body must contain:\n\n- A unique string that identifies this bulk charge operation\n\n- A set of subscription identifiers that are to be charged.",
         "parameters": [
           {
             "name": "MerchantNumber",
@@ -1035,6 +1035,8 @@
         "tags": [
           "Subscriptions"
         ],
+        "summary": "Retrieve bulk charges",
+        "description": "Retrieves all charges associated with the specified bulk charge operation. The `bulkId` is returned from Nets in the response of the [Bulk charge](#bulk-charge) method.",
         "parameters": [
           {
             "name": "bulkId",
