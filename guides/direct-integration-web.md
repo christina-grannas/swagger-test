@@ -1,6 +1,4 @@
-# Integrate Easy Checkout (web)
-
-## Who is this guide for?
+# Integrate Easy Checkout on your website
 
 This guide is for developers who want to add online payments to their website using Easy Checkout.
 
@@ -9,17 +7,26 @@ This guide is for developers who want to add online payments to their website us
 Before you start you need:
 
 1. An [Easy Portal account](https://portal.dibspayment.eu). See the guide [create account](create-account.md).
-2. Your [Integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. [Need help](access-your-integration-keys.md)?
+2. Your [integration keys](https://portal.dibspayment.eu/integration) for the website you are developing. [Need help](access-your-integration-keys.md)?
 3. A running web server which can host static HTML pages and execute server side scripts. We will use PHP in this guide.
 4. Basic skills in PHP, HTML, JavaScript, and JSON (JavaScript Object Notation)
 
-## Overview
+## Introduction to Easy Checkout
 
-Easy Checkout is a platform for online payments. It supports one-time payments and recurring payments (subscriptions). [Payment methods](payment-methods.md) supported by Easy Checkout include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
+**Easy** is a platform for online payments. It supports one-time payments and subscriptions (recurring payments). [Payment methods](payment-methods.md) supported by Easy include card, invoice, installments, and digital wallets such as Swish, Vipps, and MobilePay.
 
-The **backend** of your website communicates with **Nets Easy Checkout** over REST APIs using your **Secret API Key**. The **frontend** of your website uses **Checkout JS API** provided by Nets to handle the API integration with Easy Checkout. The **frontend** of your site uses the **Checkout Key** to identify your webshop when communicating with Nets.
+**Easy Checkout** is the part of Easy that handles the checkout on your website. You have two options when integrating Easy Checkout on your site: 
+
+- An **embedded checkout** on your site using the [Checkout JS SDK](checkout-js.md). This option allows for more customizations but also requires a little more work initially.
+- A **hosted checkout** which is a pre-built checkout page hosted by Nets. This options requires less work on your side but is also less flexible. There might be technical reasons why you cannot use an embedded checkout in your E-commerce system. In that case, the hosted checkout is the right option for you.
+
+This guide demonstrates how to integrate an **embedded checkout** on your website.
+
+The **backend** of your website communicates with **Nets Easy** over REST APIs using your **Secret API Key**. The **frontend** of your website uses the **Checkout JS SDK** provided by Nets to handle the API integration with Easy Checkout. The **frontend** of your site uses the **Checkout Key** to identify your webshop when communicating with Nets.
 
 
+
+![Easy Checkout Integration](./images/easy-checkout-overview.png)
 
 ---
 **Important**
@@ -30,7 +37,9 @@ In contrast, the **Checkout key** is only an identifer and can be exposed to the
 
 ---
 
+<!--
 ## What you are building
+-->
 
 
 <!--
@@ -50,34 +59,36 @@ In this guide, you will embed a checkout page to your webshop in six steps:
 The checkout is initiated from the client. We will start implementing the checkout flow from the frontend by adding:
 
 - A **button** that will allow the customer to initiate the checkout
-- An JavaScript **event handler** attached to the button
+- A JavaScript **event handler** attached to the button
 
-Create a file named `cart.html`. The content below will serve as a minimal starting point for the payment flow:
+The minimal shopping cart below will serve as a starting point for the payment flow.
 
 ```html
 <!DOCTYPE html>
-<!-- 
-  cart.html 
--->
+<!-- cart.html -->
 <html>
   <head>
     <title>Shopping Cart</title>
   </head>
   <body>
     <h1>Shopping Cart</h1>
-    <button id="checkout-button">Proceed to  Checkout</button>
+    <button id="checkout-button">Proceed to Checkout</button>
     <script type="text/javascript">
     var button = document.getElementById('checkout-button');
     button.addEventListener('click', function () {
       var request = new XMLHttpRequest();
-      request.open('GET', 'create-payment.php', true);
+
+      // create-payment.php is implemented in Step 2
+      request.open('GET', 'create-payment.php', true); 
       request.onload = function () {
-        const data = JSON.parse(this.response);     // If parse error, check output 
-        if (!data.paymentId) {                      // from create-payment.php
+        const data = JSON.parse(this.response);        // If parse error, check output 
+        if (!data.paymentId) {                         // from create-payment.php
           console.error('Error: Check output from create-payment.php');
           return;
         }
         console.log(this.response);
+
+        // checkout.html is implemented in Step 3
         window.location = 'checkout.html?paymentId=' + data.paymentId;
       }
       request.onerror = function () { console.error('connection error'); }
@@ -118,7 +129,7 @@ document.getElementById('checkout-button').addEventListener('click', function ()
 
 When clicking the checkout button, the event handler will send an asynchronous **request** over **HTTP(S)** to the **backend** of your site. If you try clicking the checkout button now, you will receive a **HTTP 404** error since we haven't implemented the backend yet. You can verify this by inspecting the JavaScript Console in your browser.
 
-Let's fix this 404 error and turn to the backend and implement the `create-payment.php` script.
+Let's fix this 404 error and turn to the backend the request to create a payment.
 
 ## Step 2: Create a payment object (backend)
 
@@ -146,7 +157,7 @@ echo($result);
 
 ?>
 ```
-Replace the text `` with your [Secret API key](https://portal.dibspayment.eu/integration).
+Replace the text `<YOUR_SECRET_API_KEY>` with your [Secret API key](https://portal.dibspayment.eu/integration).
 
 In this example we simply read a hardcoded JSON object from the file `payload.json` shown below. 
 Normally, this would be the place where you dynamically create a JSON object based on your customer's order items.
@@ -192,23 +203,21 @@ Make sure you replace the line:
 ```json
     "url": "https://<YOUR_SERVER>/checkout.html",
 ```
-with the URL to the checkout page on your site, or the page will fail to load later on when using [Checkout.js](checkout-js.md). You should eventually replace the [`termsUrl`](https://example.com/api) as well, with a URL to your site describing your Payment Terms.
+with the **exact URL** to the checkout page (created in the next step), or the page will fail to load later on. Verify the **protocol** (http/https), **server address**, and **port** you are using.
 
 ---
 
 
-This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides Update order, Add shipping cost, and the API reference for more info.
+This is a minimal example just to get started. There are numerous settings that can be specified when creating or updating a payment object that are not covered here. See the guides [Update order](#update-order), [Add shipping cost](#add-shipping-cost), and the [Payment API reference] for more info.
 
-You should now be able to click the "Proceed to Checkout" button and thereafter see the `paymentId` printed to the JavaScript console in your web browser. 
+You should now be able to click the checkout button and thereafter see the `paymentId` printed to the JavaScript console in your web browser. 
 
 
 
 ---
 **Troubleshooting**
 
-If the paymentId is not printed to the JavaScript console, you can also try loading 
-  the backend script directly from your web browser. In that way, you can read the error
-  messages outputted from the script more easily.
+If the `paymentId` is not printed to the JavaScript console, you can also try loading the backend script directly from your web browser. In that way, you can read the error messages outputted from the script more easily.
   
 ---
 
@@ -220,9 +229,7 @@ It's time to create the HTML page that will embed the checkout `iframe`. Add the
 
 ```html
 <!DOCTYPE html>
-<!--
-  checkout.html
--->
+<!-- checkout.html -->
 <html>
  <head><title>Checkout</title></head>
  <body>
@@ -245,11 +252,11 @@ The HTML code contains a few things to pay attention to:
 The `checkout.html` page should always be requested with a URL parameter called `paymentId` since the `paymentId` is needed in order to identify the current payment session when communicating with Nets. 
 
 
-## Step 4: Generate checkout iframe using `Checkout.js`
+## Step 4: Generate checkout iframe using the Checkout JS SDK
 
-It's time to create the final JavaScript that will communicate with Nets Easy Checkout using `Checkout.js`. 
+It's time to create the JavaScript that will communicate with Nets Easy using the Checkout JS SDK.
 
-Create a file called `checkout-helper.js` and add the following JavaScript code:
+Create a new file and add the following JavaScript code:
 
 ```javascript
 /*
@@ -264,13 +271,10 @@ document.addEventListener('DOMContentLoaded', function () {
       checkoutKey: '<YOUR_CHECKOUT_KEY>', // Replace!
       paymentId: paymentId,
       containerId: "checkout-container-div",
-      theme: {
-        buttonRadius: "5px"
-      }
     };
     const checkout = new Dibs.Checkout(checkoutOptions);
     checkout.on('payment-completed', function (response) {
-      window.location = 'payment-completed.html';
+      window.location = 'completed.html';
     });
   } else {
     console.log("Expected a paymentId");   // No paymentId provided, 
@@ -281,17 +285,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Replace `<YOUR_CHECKOUT_KEY>` with your [checkout key](https://portal.dibspayment.eu/integration) for the [test environment](test-environment.md).
 
-For the `Checkout.js` script to load correctly, it's important that you have specified the correct URL to your checkout page in step 3.
+For the `checkout.js` script to load correctly, it's important that you have specified the correct URL to your checkout page in [Step 3](#step-3-add-a-checkout-page-frontend).
 
-The checkout object will fire the event `'payment-completed'` once the payment has completed. The callback function we provide navigate to `payment-completed.html` which we will create in the next step.
+The checkout object will fire the event `'payment-completed'` once the payment has completed. The callback function we provide navigate to `completed.html` which we will create in the next step.
 
 
-## Step 5: Add a complete payment page
+---
+**Troubleshooting**
 
-Add the following page to your site and name it payment-completed.html:
+- Make sure you are using the correct [integration keys](https://portal.dibspayment.eu/integration) for the [test environment](test-environment.md).
+- For the `checkout.js` script to load correctly, it's important that you have specified the correct URL to your checkout page [Step 3](#step-3-add-a-checkout-page-frontend).  
+---
+
+
+## Step 5: Add a "Payment completed" page
+
+Add the following page to your site:
 
 ```html
 <!DOCTYPE html>
+<!-- completed.html -->
 <html>
   <head>
     <title>Payment completed</title>
@@ -311,30 +324,33 @@ You should now have a rudimentary checkout page that can be tested using the tes
 
 Here is how you test your new checkout page:
 
-1. Reload the `cart.html` page
-2. Click the "Proceed to Checkout" button
-3. Fill out the address form using your email, phone, and postal code
-4. Insert any of the sample card numbers
-5. Fill the "Expire date" field with the month and year of today
-6. Fill the "CVC" field with three arbitrary digits (123 for example)
-7. Click the "Pay" button
+1. Reload the shopping cart page and click the "Proceed to Checkout" button
+3. Fill out the address form using your **email**, **phone**, and **postal code(())
+4. Insert any of the [sample card numbers](#test-cards) and click the "Pay" button
+5. Play around! 
 
-The simulated payment processing should now start and eventually get you back to the `payment-completed.html` page you created in the previous step.
+The simulated payment processing should now start and eventually get you back to the "Payment completed" page you created in the previous step.
 
-## Troubleshooting
 
-- Verify that you are using the correct [Integration keys](access-your-integration-keys.md) for the [test environment](test-environment.md).
-- `Checkout.js` will fail to load unless you provide the correct checkout URL in the JSON body specified in [Step 2](#step-2-create-a-payment-object-backend) when creating the `paymentId`.
-- When changing the checkout URL, make sure you reload `cart.html` so that a new payment session is created (and a new `paymentId`).
+---
+**Troubleshooting**
+
+- Verify that you are using the correct [integration keys](access-your-integration-keys.md) for the [test environment](test-environment.md).
+- `checkout.js` will fail to load unless you provide the correct checkout URL in the JSON body specified in [Step 2](#step-2-create-a-payment-object-backend) when creating the `paymentId`.
+- When changing the checkout URL, make sure you reload shopping cart page so that a new payment session is created (and a new `paymentId`).
+---
+
+---
+**Congratulations!**
+You have now integrated an embedded checkout!
+
+---
 
 
 ## Next steps
 
-- Recurring payments
-- Customize payment UI
+- [Customize checkout page](customize-payment-form.md)
 - Add shipping cost
 - Add payment methods
+- Manage subscriptions
 
-## Report a problem
-
-support@nets.se
