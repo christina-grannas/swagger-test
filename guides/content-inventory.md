@@ -3,6 +3,8 @@
 ## Guides
 
 - [Direct integration (embedded)](direct-integration-web.md)
+- [Customize checkout page](customize-payment-form.md) (See Figma)
+- [Support private and business customers](customize-payment-form.md) (See Figma)
 - [Add shipping costs](add-shipping-costs.md)
 - [Add payment methods](payment-methods.md)
 
