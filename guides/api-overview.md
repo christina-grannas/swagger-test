@@ -50,35 +50,27 @@ The secret API key is should only be passed between your server and a Nets Easy 
 
 ## Retries and idempotent keys
 
-Most HTTP methods are **idempotent**, meaning that sending the same HTTP request multiple times to the server will not change the state of the server. In case of a network failure, it should always be safe to resend an idempotent request. For example, sending multiple identical GET requests to a server should not. In other words, it should be safe to retry a GET request if you didn't get any response from the server due to some network failure.
-
-However, POST requests usually create new resources on the server side and cannot be 
+Most HTTP methods are **idempotent**, meaning that sending the same HTTP request multiple times to the server will not change the state of the server. In case of a network failure, it is always safe to retry an idempotent request. However, POST requests usually create new resources on the server side and cannot be retried safely by default. Using a **idempotency key** makes it safe for clients to retry POST requests that failed due to network failures.
 
 
+### POST methods and network failures
 
-POST 
-Calling a API GET POST
+To understand the potential problem with POST requests and network failures, consider the following flow between a HTTP client and a Nets server:
+1. A client sends a POST request to the server. 
+2. The request reaches the server and creates a new payment resource on the server.
+3. The server also reserves the amount of the payment on the customer's payment card.
+4. The client's network become unreachable and the response from the server never reaches the client
 
-### The problem
+In this state, the client doesn't know whether a new payment has been created or not. Neither did the client receive a `paymentId` back from the server, so there is no way for the client to check whether the payment object has been created or not. The client could potentially send a new HTTP request, asking the server to create a new payment object, but that would reserve an additional amount on the customer's payment card (which was not the intention).
 
-Imagine that you send an HTTP request for creating a new payment. 
-- The client sends a POST request to the server 
-- The request reaches the server and creates a new payment object on the server.
-- The server also reserves the amount of the payment of the customer's payment card.
-- The client's network become unreachable
-- The response from the server never reaches the client
+### Using idempotency keys to enable retries
 
-In this state, the client doesn't know whether a new payment has been created or not. Neither did the client receive a paymentId back from the server, so there is no way for the client to check whether the payment object has been created or not.
+The solution to the problem presented above is to have the client generate a **unique idempotency key**. The client adds this key to the initial HTTP POST request a subsequent retries. The server can use the idempotency key to detect whether the client is sending a retry to avoid performing the same operation multiple times on the server. If a retry was detected, the server will respond with the same HTTP status code and response object (if any) as it did the first time. 
 
-The client could potentially send a new HTTP request, asking the server to create a new payment object. But that would reserve an additional amount on the customer's payment card which is not acceptable.
+Use the header parameter named `Idemopotency-Key` to pass an idempotency key to the server whenever you are creating new resources (POST requests). The value of this parameter should be a unique string with a **maximal length** of **63** characters.
 
-### The solution
+Whenever you need to retry a POST request, pass the same value of the idempotency key to avoid creating multiple resources by mistake.
 
-The solution to this problem is to have the client generate a **unique idempotency key**. The client adds this key to the initial HTTP request. If The server will respond with the same HTTP status code and response object (if any) as it did the first time. The server can use the idempotency key to detect whether the client is sending a retry to avoid performing the same operation multiple times on the server.
-
-
-
-Using a idempotency key makes it safe for clients to retry requests that failed due to network failures.
 
 ## Data types and formats
 
