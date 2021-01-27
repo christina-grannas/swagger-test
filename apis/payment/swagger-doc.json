@@ -25,6 +25,14 @@
       "description": "Subscriptions allows you to charge your customer on a regular basis, for example a monthly subscription on a product the customer must pay for every month."
     },
     {
+      "name": "Webhooks",
+      "description": "Webhooks (or HTTP callbacks) allow you to  subscribe to different events that affect a payment and to be notified directly when these events happen. When an event occurs in Easy; for example, a charge is made or a payment is refunded, this event can be sent along with the associated data.\n\nEasy sends the event as an HTTP POST request to the URL specified by you.\n\nWebhooks are **configured per payment** and can be specified in the request body of the following methods:\n\n- [Create payment](#create-payment)\n\n- [Charge subscription](#charge-subscription).\n\nWhen you subscribe to a webhook, Easy will try to send the request to the specified URL until the server responds with a 200 OK status code. If the server responds with anything else, or times out, a certain number of retries are made with increasing time between each attempt. Supported events for webhooks:\n\nTo acknowledge the webhook sent from Easy, a 200 HTTP status code is required. Any other status code, even other 2XX codes, will be treated as a not successful attempt.\n\nIf the webhook was not successfully posted to you, Easy will continue to send the webhook with an increasing interval in time between each attempt. If your site still has not responded with 200 after this period, the webhook will not be attempted any more."
+    },
+    {
+      "name": "Error codes",
+      "description": ""
+    },
+    {
       "name": "Health Check",
       "description": "Inkludera denna?"
     }
@@ -1141,7 +1149,46 @@
         }
       }
     },
-    "/v1/subscriptions/verifications/{bulkId}": {
+    "/v1/subscriptions/verifications": {
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Private api key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+   "/v1/subscriptions/verifications/{bulkId}": {
       "get": {
         "tags": [
           "Subscriptions"
@@ -1222,53 +1269,14 @@
         }
       }
     },
-    "/v1/subscriptions/verifications": {
-      "post": {
-        "tags": [
-          "Subscriptions"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Private api key",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dibs.PaymentApi.Contracts.V1.SubscriptionVerification.BulkSubscriptionVerificationBody"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Infrastructure.Common.WebApi.BadRequestViewModel"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-   
+    
 
     "/v1/subscriptions/{subscriptionId}/charges": {
       "post": {
         "tags": [
           "Subscriptions"
         ],
-        "summary": "Charge subscription",
+        "summary": "HIDE: Charge subscription",
         "description": "Charges the specified subscription.",
         "parameters": [
           {
