@@ -51,4 +51,35 @@ Some API requests required to include a valid Authorization header. This header 
 The secret API key is always passed between your server and a Nets Easy endpoint. The secret API key should never be used from the client side of your site / app for security reasons.
 
 
-## Inde
+## Retries and idempotent keys
+
+Most HTTP methods are **idempotent**, meaning that sending the same HTTP request multiple times to the server will not change the state of the server. For example, send multiple identical GET requests to a server should not. In other words, it should be safe to retry a GET request if you didn't get any response from the server due to some network failure.
+
+However, POST requests usually create new resources on the server side and cannot be 
+
+
+
+POST 
+Calling a API GET POST
+
+### The problem
+
+Imagine that you send an HTTP request for creating a new payment. 
+- The client sends a POST request to the server 
+- The request reaches the server and creates a new payment object on the server.
+- The server also reserves the amount of the payment of the customer's payment card.
+- The client's network become unreachable
+- The response from the server never reaches the client
+
+In this state, the client doesn't know whether a new payment has been created or not. Neither did the client receive a paymentId back from the server, so there is no way for the client to check whether the payment object has been created or not.
+
+The client could potentially send a new HTTP request, asking the server to create a new payment object. But that would reserve an additional amount on the customer's payment card which is not acceptable.
+
+### The solution
+
+The solution to this problem is to have the client generate a **unique idempotency key**. The client adds this key to the initial HTTP request. If The server will respond with the same HTTP status code and response object (if any) as it did the first time. The server can use the idempotency key to detect wheter the client is sending a retry to avoid performing the same operation multiple times on the server.
+
+
+
+Using a idempotency key makes it safe for clients to retry requests that failed due to network failures.
+

@@ -1,5 +1,10 @@
 # Content Inventory
 
+## Guides
+
+- [Direct integration (embedded)](direct-integration-web.md)
+- [Add shipping costs](add-shipping-costs.md)
+- [Add payment methods](payment-methods.md)
 
 ## Admin
 
@@ -7,7 +12,7 @@
 - [Create account](create-account.md) (OK)
 - [Access integration keys](access-your-integration-keys.md) (OK)
 - [Manage your team](manage-team.md)
-- [Manage payments](manage-payments.md)
+- [Manage payments](manage-payments.md) (OK)
 - [Receiving payouts](payouts.md)
 
 ## Test and Deploy
@@ -23,4 +28,5 @@
 - [Overview](api-overview.md)
 - [Payment API]()
 - [Reporting API]()
-- [Checkout JS SDK]()
+- [Boarding API]()
+- [Checkout JS SDK](checkout-js.md)
