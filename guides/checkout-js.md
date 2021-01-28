@@ -118,7 +118,7 @@ checkout.send(eventName, value);
 - `eventName` string - *required*
 A string identifying the event to be sent. 
 
-`value` any - *optional*
+- `value` any - *optional*
 An optional value. Type depends on the event. 
 
 
