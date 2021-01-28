@@ -1,15 +1,20 @@
 
 
-# Checkout JavaScript API (frontend)
+# Checkout JavaScript SDK (frontend)
 
-The `Checkout` object is the main object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object also handles the communication between the frontend of your site and Nets.
+The Checkout JavaScript defines a `Checkout` object that dynamically builds the checkout page when embedding Easy Checkout on your site. The `Checkout` object also handles the communication between the frontend of your site and Nets Easy. Checkout.js should be loaded from the following URLs:
+
+| Environment | JavaScript URL
+|:-----------:|:---------------
+| Test        | [https://test.checkout.dibspayment.eu/v1/checkout.js?v=1](https://test.checkout.dibspayment.eu/v1/checkout.js?v=1)
+| Live        | [https://checkout.dibspayment.eu/v1/checkout.js?v=1](https://checkout.dibspayment.eu/v1/
 
 <!-- that you use for communicating with Nets on the frontend of your site. -->
 
 ## Constructor
 Constructs a new `Checkout` object. 
 
-During construction, the `Checkout` object communicates with the Nets Easy Checkout servers and immediately starts generating the checkout page in an embedded `iframe`.
+During construction, the `Checkout` object communicates with the Nets Easy servers and immediately starts generating the checkout page in an embedded `iframe`.
 
 <!--
 The `Checkout()` constructor communicates with the Nets Easy Checkout servers and dynamically builds the embedded checkout page. You are required to pass parameters for **identifying your site** and the **ongoing payment session**. Optionally, you can provide **UI theme settings** and **language** to be displayed on the checkout page.
@@ -24,20 +29,25 @@ var checkout = new Dibs.Checkout(checkoutOptions);
 ```
 
 #### Parameters
-`checkoutOptions` - *required*
-
+<!-- ext:parameters -->
+- `checkoutOptions` object - *required*
 You are required to pass parameters for identifying **your site** and the **ongoing payment session**. Optionally, you can provide parameters that affect the **UI** of the checkout page.
 
-The `checkoutOptions` object contains the following properties:
-
-| Property   | Required/Optional | Description
-| :-----------| :-----------------: |:-----------
-| `checkoutKey`  | Required | Identifies your site (webshop), see [Integration keys](access-your-integation-keys.md)
-| `paymentId`	| Required | The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
-| `partnerMerchantNumber` | Optional  | Partner identifer
-|  `containerId` |  Optional | ID of the DOM element on your site where the `iframe` will be loaded
-| `language` | Optional | Language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
-| `theme` | Optional | A dictionary. See UI [theme](#theme) below.
+  - `checkoutKey` string - *required*
+  Identifies your site (webshop), see [Integration keys](access-your-integation-keys.md)
+  - `paymentId` string - *required*
+  The `paymentId` token that identifies the ongoing payment session. The `paymentId` should be created by the backend of your site when initiating the checkout. See also [Payment API](https://www.example.com/payment).
+  - `partnerMerchantNumber` string - *optional*
+  The identifier of a merchant that can be used by a Nets partner managing multiple merchants.
+  - `containerId` string - *optional*
+  ID of the DOM element on your site where the `iframe` will be loaded.
+  - `checkoutKey` string - *required*
+  Identifies your webshop, see [Access your integration keys](access-your-integation-keys.md).
+  - `language` string - *optional*
+  Language used on the checkout page. Defaults to `en-GB` if not specified. See [supported values](#supported-languages) below.
+  - `theme` string - *optional* 
+  A dictionary. See UI [theme](#theme) below.
+<!-- /ext:parameters -->
 
 #### Example
 
@@ -73,9 +83,8 @@ checkout.setLanguage(language);
 ```
 
 #### Parameters
-
-`language` - *required*
- A string specifying the language.  See [supported language](#supported-languages).
+- `language` string - *required*
+A string specifying the language.  See [supported language](#supported-languages).
 
 
 
@@ -106,13 +115,11 @@ checkout.send(eventName, value);
 
 #### Parameters
 
-`eventName` - *required*
-
+- `eventName` string - *required*
 A string identifying the event to be sent. 
 
-`value` - *optional*
-
-An optional value for the specified event.
+`value` any - *optional*
+An optional value. Type depends on the event. 
 
 
 | Event name                  | Value                   | Description
@@ -187,8 +194,7 @@ checkout.on('pay-initialized', event_handler);
 
 #### Parameters
 
-`event_handler` - *required*
-
+- `event_handler` function - *required*
 An event handler accepting a `response` parameter. 
 The response parameter contains the `paymentId`.
 
@@ -215,16 +221,12 @@ checkout.on('payment-completed', event_handler);
 
 #### Parameters
 
-`event_handler` - *required*
-
+- `event_handler` function - *required*
 An event handler accepting a `response` parameter with the following properties:
-
-| Property      | Description
-|---------------|---------------
-| `paymentId`  | string 
-| `countryCode` | string
-The response parameter contains the `paymentId`.
-
+  - `paymentId` string 
+  The payment identifier.
+  - `countryCode` string
+  The country code. See the [complete list of supported countries](easy-api-overview.html).
 #### Example
 
 ```javascript
@@ -253,14 +255,10 @@ checkout.on('address-changed', event_handler);
 
 #### Parameters
 
-`event_handler` - *required*
-
+- `event_handler` function - *required*
 An event handler accepting an `address` parameter. The `address` object contains the following properties:
-
-| Property      | Description
-|---------------|---------------
-| `postalCode`  | String 
-| `countryCode` | String
+  - `postalCode` string 
+  - `countryCode` string
 
 
 #### Example
